@@ -5,7 +5,7 @@ namespace backend\controllers;
 use backend\config\Database;
 use PDO;
 
-class StudentAccountController
+class StudentGradeController
 {
     private $conn;
 
@@ -25,7 +25,6 @@ class StudentAccountController
             http_response_code(200);
             echo json_encode($students);
         } catch (\Exception $e) {
-            // http_response_code(500); // Internal Server Error
             return json_encode(['error' => $e->getMessage()]);
         }
     }
@@ -123,10 +122,10 @@ class StudentAccountController
     }
 
     //get student with id
-    public function get_student($id)
+    public function student_grades_list($id)
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year,roles.name as role_name FROM users,students,roles WHERE users.id = :id and students.user_id = users.id and users.role_id = roles.id";
+            $query = "SELECT users.name as user_name,students.major,students.student_year,grades.*  FROM users,students,courses,grades WHERE users.id = :id and students.user_id = users.id and  grades.student_id = students.id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':id', $id);
             $stmt->execute();

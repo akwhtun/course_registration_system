@@ -180,7 +180,8 @@ class SubadminAccountController
     name = :name,
     email = :email,
     phone = :phone,
-    gender = :gender
+    gender = :gender,
+    updated_date = NOW()
     WHERE
     id = :id";
             $stmt1 = $this->conn->prepare($query1);
@@ -196,7 +197,8 @@ class SubadminAccountController
 
             // Update student data
             $query2 = "UPDATE sub_admins
-    SET department = :department
+    SET department = :department,
+    updated_date = NOW()
     WHERE user_id = :id";
             $stmt2 = $this->conn->prepare($query2);
             $stmt2->bindValue(':department', $department);

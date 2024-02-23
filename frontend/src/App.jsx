@@ -12,6 +12,8 @@ import RegisterSubAdminAccount from "./components/RegisterSubAdminAccount";
 import SubadminsList from "./components/SubadminsList";
 import ViewSubadmin from "./components/ViewSubadmin";
 import EditSubadmin from "./components/EditSubadmin";
+import ViewStudentGrade from "./components/ViewStudentGrade";
+import RegisterStudentGrade from "./components/RegisterStudentGrade";
 function App() {
   return (
     <Routes>
@@ -29,6 +31,7 @@ function App() {
       <Route path="/subadmins/create" element={<RegisterSubAdminAccount />} />
       <Route path="/subadmins/view/:id" element={<ViewSubadmin />} />
       <Route path="/subadmins/edit/:id" element={<EditSubadmin />} />
+      <Route path="/students/grade/:id" element={<ViewStudentGrade />} />
     </Routes>
   );
 }

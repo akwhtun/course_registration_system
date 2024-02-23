@@ -111,7 +111,6 @@ class CourseController
                 echo json_encode(['error' => 'Course not found']);
             }
         } catch (\Exception $e) {
-            http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
@@ -142,7 +141,7 @@ class CourseController
         $semester = $data['semester'];
 
         try {
-            $query = "UPDATE courses SET course_code = :course_code ,course_name = :course_name, course_year =:course_year, semester=:semester WHERE id = :id";
+            $query = "UPDATE courses SET course_code = :course_code ,course_name = :course_name, course_year =:course_year, semester=:semester , updated_date = NOW() WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':course_code', $course_code);
             $stmt->bindValue(':course_name', $course_name);

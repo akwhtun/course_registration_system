@@ -219,6 +219,10 @@ function StudentList() {
                                 <Button color="yellow" size='sm' className='ms-2'>Edit</Button>
                               </Link>
 
+                              <Link to={`/students/grade/${id}`} className="text-xs ms-2 font-semibold">
+                                <Button color="pink" size='sm'>Grade</Button>
+                              </Link>
+
                             </td>
                           </tr>
                         );
