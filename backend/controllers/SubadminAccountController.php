@@ -5,7 +5,7 @@ namespace backend\controllers;
 use backend\config\Database;
 use PDO;
 
-class StudentAccountController
+class SubadminAccountController
 {
     private $conn;
 
@@ -14,30 +14,30 @@ class StudentAccountController
         $this->conn = $db->connect();
     }
 
-    // get students account list
+    // get subadmins account list
     public function get_accounts_list()
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year FROM users,students WHERE users.id=students.user_id";
+            $query = "SELECT users.*,sub_admins.department FROM users,sub_admins WHERE users.id=sub_admins.user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $subadmins = $stmt->fetchAll(PDO::FETCH_ASSOC);
             http_response_code(200);
-            echo json_encode($students);
+            echo json_encode($subadmins);
         } catch (\Exception $e) {
             // http_response_code(500); // Internal Server Error
             return json_encode(['error' => $e->getMessage()]);
         }
     }
 
-    //register student account
-    public function register_student_account()
+    //register subadmin account
+    public function register_subadmin_account()
     {
         // Decode JSON data into an associative array
         $data = json_decode(file_get_contents('php://input'), true);
 
 
-        $requiredFields = ['id', 'name', 'email', 'phone', 'gender', 'major', 'year'];
+        $requiredFields = ['id', 'name', 'email', 'phone', 'gender', 'department'];
         $missingFields = [];
 
         foreach ($requiredFields as $field) {
@@ -61,7 +61,7 @@ class StudentAccountController
             $stmt1 = $this->conn->prepare($query1);
 
             $stmt1->bindValue(':id', $data['id']);
-            $stmt1->bindValue(':role_id', 3);
+            $stmt1->bindValue(':role_id', 2);
             $stmt1->bindValue(':name', $data['name']);
             $stmt1->bindValue(':email', $data['email']);
             $stmt1->bindValue(':password', '123');
@@ -73,21 +73,20 @@ class StudentAccountController
 
             $stmt1->execute();
 
-            $query2 = "INSERT INTO students (user_id, major, student_year) VALUES (:user_id, :major, :student_year)";
+            $query2 = "INSERT INTO sub_admins (user_id, department) VALUES (:user_id, :department)";
 
             $stmt2 = $this->conn->prepare($query2);
             $stmt2->bindValue(':user_id', $data['id']);
-            $stmt2->bindValue(':major', $data['major']);
-            $stmt2->bindValue(':student_year', $data['year']);
+            $stmt2->bindValue(':department', $data['department']);
 
             $stmt2->execute();
 
             if ($stmt1->rowCount() > 0 && $stmt2->rowCount() > 0) {
                 http_response_code(200);
-                echo json_encode(['message' => 'Student registered successfully']);
+                echo json_encode(['message' => 'Subadmin registered successfully']);
             } else {
                 http_response_code(202);
-                echo json_encode(['error' => 'Failed to register student']);
+                echo json_encode(['error' => 'Failed to register subadmin']);
             }
         } catch (\PDOException $e) {
             $errorMessage = '';
@@ -122,36 +121,36 @@ class StudentAccountController
         }
     }
 
-    //get student with id
-    public function get_student($id)
+    //get subadmin with id
+    public function get_subadmin($id)
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year,roles.name as role_name FROM users,students,roles WHERE users.id = :id and students.user_id = users.id and users.role_id = roles.id";
+            $query = "SELECT users.*,sub_admins.department,roles.name as role_name FROM users,sub_admins,roles WHERE users.id = :id and sub_admins.user_id = users.id and roles.id = users.role_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
 
-            $student = $stmt->fetch(PDO::FETCH_ASSOC);
+            $subadmin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($student) {
+            if ($subadmin) {
                 http_response_code(200);
-                echo json_encode($student);
+                echo json_encode($subadmin);
             } else {
-                echo json_encode(['error' => 'Student not found']);
+                echo json_encode(['error' => 'Subadmin not found']);
             }
         } catch (\Exception $e) {
-            http_response_code(500);
+            http_response_code(202);
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
 
     //update student
-    public function update_student($id)
+    public function update_subadmin($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
         // Check if required fields are present
-        $requiredFields = ['name', 'email', 'phone', 'gender', 'major', 'student_year'];
+        $requiredFields = ['name', 'email', 'phone', 'gender', 'department'];
         $missingFields = [];
 
         foreach ($requiredFields as $field) {
@@ -173,8 +172,7 @@ class StudentAccountController
         $email = $data['email'];
         $phone = $data['phone'];
         $gender = $data['gender'];
-        $major = $data['major'];
-        $student_year = $data['student_year'];
+        $department = $data['department'];
 
         try {
             // Update user data
@@ -197,13 +195,11 @@ class StudentAccountController
             $userChanges = $stmt1->rowCount() > 0;
 
             // Update student data
-            $query2 = "UPDATE students
-    SET major = :major,
-    student_year = :student_year
+            $query2 = "UPDATE sub_admins
+    SET department = :department
     WHERE user_id = :id";
             $stmt2 = $this->conn->prepare($query2);
-            $stmt2->bindValue(':major', $major);
-            $stmt2->bindValue(':student_year', $student_year);
+            $stmt2->bindValue(':department', $department);
             $stmt2->bindValue(':id', $id);
             $stmt2->execute();
 
@@ -213,7 +209,7 @@ class StudentAccountController
             // Check if both queries resulted in changes
             if ($userChanges || $studentChanges) {
                 http_response_code(200);
-                echo json_encode(['message' => 'Student updated successfully']);
+                echo json_encode(['message' => 'Subadmin updated successfully']);
             } else {
                 http_response_code(202);
                 echo json_encode(['error' => 'No changes were made']);

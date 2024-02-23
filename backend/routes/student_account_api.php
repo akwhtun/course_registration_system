@@ -24,7 +24,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             if ($id !== null) {
                 $account->get_student($id);
             } else {
-                echo json_encode(['error' => 'Course ID is required']);
+                echo json_encode(['error' => 'Fail to fetch']);
             }
         } else {
             // http_response_code(404);

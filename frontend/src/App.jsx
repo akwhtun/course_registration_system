@@ -1,13 +1,17 @@
 // App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Dashboard, Auth } from "@/layouts";
-import  StudentsList  from "./components/StudentsList";
-import RegisterStudentAccount from "./components/RegisterStudentAccount"; 
+import StudentsList from "./components/StudentsList";
+import RegisterStudentAccount from "./components/RegisterStudentAccount";
 import ViewStudent from "./components/ViewStudent";
 import EditStudent from "./components/EditStudent";
 import CoursesList from "./components/CoursesList";
 import CreateCourse from "./components/CreateCourse";
 import EditCourse from "./components/EditCourse";
+import RegisterSubAdminAccount from "./components/RegisterSubAdminAccount";
+import SubadminsList from "./components/SubadminsList";
+import ViewSubadmin from "./components/ViewSubadmin";
+import EditSubadmin from "./components/EditSubadmin";
 function App() {
   return (
     <Routes>
@@ -17,11 +21,14 @@ function App() {
       <Route path="/students/view" element={<StudentsList />} />
       <Route path="/students/create" element={<RegisterStudentAccount />} />
       <Route path="/students/view/:id" element={<ViewStudent />} />
-      {/* <Route path="/students/edit/:id" element={<EditStudent />} /> */}
       <Route path="/students/edit/:id" element={<EditStudent />} />
       <Route path="/courses/view" element={<CoursesList />} />
       <Route path="/courses/create" element={<CreateCourse />} />
-       <Route path="/courses/edit/:id" element={<EditCourse />} />
+      <Route path="/courses/edit/:id" element={<EditCourse />} />
+      <Route path="/subadmins/view" element={<SubadminsList />} />
+      <Route path="/subadmins/create" element={<RegisterSubAdminAccount />} />
+      <Route path="/subadmins/view/:id" element={<ViewSubadmin />} />
+      <Route path="/subadmins/edit/:id" element={<EditSubadmin />} />
     </Routes>
   );
 }
