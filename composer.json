@@ -6,5 +6,11 @@
             "email": "105596104+akwhtun@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+        "backend\\config\\": "backend/config/",
+        "backend\\controllers\\": "backend/controllers"
+        }
+        }
 }
