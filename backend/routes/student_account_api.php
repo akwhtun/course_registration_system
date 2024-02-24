@@ -9,63 +9,49 @@ header('Access-Control-Allow-Headers: *');
 include("../../vendor/autoload.php");
 
 use backend\config\Database;
-use backend\controllers\StudentGradeController;
+use backend\controllers\StudentAccountController;
 
-$grade = new StudentGradeController(new Database());
+$account = new StudentAccountController(new Database());
 
+// Handle requests based on HTTP method
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'student_data') {
-            $id = $_GET['id'] ?? null;
-            $year = $_GET['year'] ?? null;
-            if ($id !== null && $year) {
-                $grade->get_student_data($id, $year);
-            } else {
-                echo json_encode(['error' => 'Fail to fetch']);
-            }
-        } elseif ($endpoint === 'student_grades_list') {
+        if ($endpoint === 'students_account_list') {
+            $account->get_accounts_list();
+        } elseif ($endpoint === 'get_student') {
             $id = $_GET['id'] ?? null;
             if ($id !== null) {
-                $grade->student_grades_list($id);
+                $account->get_student($id);
             } else {
                 echo json_encode(['error' => 'Fail to fetch']);
             }
         } else {
+            // http_response_code(404);
             echo json_encode(['error' => 'Endpoint not found']);
         }
         break;
 
     case 'POST':
         $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'student_register_grade') {
-            $id = $_GET['id'] ?? null;
-            if ($id !== null) {
-                $grade->register_student_grade($id);
-            }
+        if ($endpoint === 'student_register_account') {
+            $account->register_student_account();
         } else {
+            // http_response_code(404);
             echo json_encode(['error' => 'Endpoint not found']);
         }
         break;
     case 'PUT':
         $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'update_grade') {
+        if ($endpoint === 'update_student') {
             $id = $_GET['id'] ?? null;
-            $grade->update_grade($id);
-        } else {
-            echo json_encode(['error' => 'Endpoint not found']);
-        }
-        break;
-    case 'DELETE':
-        $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'delete_grade') {
-            $id = $_GET['id'] ?? null;
-            $grade->delete_grade($id);
+            $account->update_student($id);
         } else {
             echo json_encode(['error' => 'Endpoint not found']);
         }
         break;
     default:
+        // http_response_code(405);
         echo json_encode(['error' => 'Method not allowed']);
         break;
 }

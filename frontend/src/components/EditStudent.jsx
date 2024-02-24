@@ -253,6 +253,7 @@ function EditStudent() {
                   <Select label="Select Major" name="major" value={studentData.major} onChange={(value) => handleSelectChange('major', value)}>
                     <Option value="Computer Science">Computer Science</Option>
                     <Option value="Computer Technology">Computer Technology</Option>
+                    <Option value="Unchoose">Unchoose</Option>
                   </Select>
                 </div>
                 <div className="w-72 mt-5">

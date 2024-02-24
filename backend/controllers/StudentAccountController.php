@@ -18,7 +18,7 @@ class StudentAccountController
     public function get_accounts_list()
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year FROM users,students WHERE users.id=students.user_id";
+            $query = "SELECT users.*,students.major,students.student_year,students.id as student_id FROM users,students WHERE users.id=students.user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $students = $stmt->fetchAll(PDO::FETCH_ASSOC);

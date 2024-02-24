@@ -44,8 +44,7 @@ function StudentList() {
         );
 
         if (response.status === 200) {
-          const data = response.data;
-          setStudents(data);
+          setStudents(response.data);
           setLoading(false);
         }
       } catch (error) {
@@ -56,6 +55,7 @@ function StudentList() {
 
     fetchStudents();
   }, []);
+  console.log(students);
   const handleCloseAlert = () => {
     setUpdateAlert(null);
     setRegisterAlert(null);
@@ -145,7 +145,7 @@ function StudentList() {
                   </thead>
                   <tbody>
                     {students.map(
-                      ({ id, name, email, major, student_year, phone, profile, gender, suspended }) => {
+                      ({ id, name, email, major, student_year, phone, profile, gender, suspended, student_id }) => {
                         const className = `py-3 px-5 ${id === students.length - 1
                           ? ""
                           : "border-b border-blue-gray-50"
@@ -203,13 +203,7 @@ function StudentList() {
                               </Typography>
                             </td>
                             <td className={`py-3 px-5`}>
-                              {/* <Typography
-                          as="a"
-                          href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
-                        >
-                          Edit
-                        </Typography> */}
+
 
                               <Link to={`/students/view/${id}`} className="text-xs font-semibold">
                                 <Button color="blue" size='sm'>View</Button>
@@ -219,8 +213,8 @@ function StudentList() {
                                 <Button color="yellow" size='sm' className='ms-2'>Edit</Button>
                               </Link>
 
-                              <Link to={`/students/grade/${id}`} className="text-xs ms-2 font-semibold">
-                                <Button color="pink" size='sm'>Grade</Button>
+                              <Link to={`/students/grade/${id}?student_id=${student_id}&student_year=${student_year}`} className="text-xs ms-2 font-semibold">
+                                <Button color="indigo" size='sm'>Grade</Button>
                               </Link>
 
                             </td>
