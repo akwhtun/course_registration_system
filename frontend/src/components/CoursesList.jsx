@@ -104,6 +104,7 @@ function CoursesList() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
+        activeNav='Courses'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
@@ -194,8 +195,8 @@ function CoursesList() {
                   {courses.map(
                     ({ id, course_name, course_code, course_year, semester }) => {
                       const className = `py-3 px-5 ${id === courses.length - 1
-                          ? ""
-                          : "border-b border-blue-gray-50"
+                        ? ""
+                        : "border-b border-blue-gray-50"
                         }`;
 
                       return (

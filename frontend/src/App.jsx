@@ -15,12 +15,16 @@ import EditSubadmin from "./components/EditSubadmin";
 import ViewStudentGrade from "./components/ViewStudentGrade";
 import RegisterStudentGrade from "./components/RegisterStudentGrade";
 import EditStudentGrade from "./components/EditStudentGrade";
+
+import UserPanel from "./components/UserPanel";
+import LoginForm from "./components/LoginForm";
 function App() {
   return (
     <Routes>
       <Route path="/dashboard/*" element={<Dashboard />} />
       <Route path="/auth/*" element={<Auth />} />
-      <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+      {/* <Route path="*" element={<Navigate to="/dashboard/home" replace />} /> */}
+      <Route path="/" element={<UserPanel />} />
       <Route path="/students/view" element={<StudentsList />} />
       <Route path="/students/create" element={<RegisterStudentAccount />} />
       <Route path="/students/view/:id" element={<ViewStudent />} />
@@ -35,6 +39,11 @@ function App() {
       <Route path="/students/grade/:id" element={<ViewStudentGrade />} />
       <Route path="/grades/create/:id/:year" element={<RegisterStudentGrade />} />
       <Route path="/grades/edit/:id" element={<EditStudentGrade />} />
+
+
+      <Route path="/users/login" element={<LoginForm />} />
+
+
     </Routes>
   );
 }
