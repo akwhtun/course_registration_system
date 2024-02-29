@@ -64,7 +64,7 @@ class StudentAccountController
             $stmt1->bindValue(':role_id', 3);
             $stmt1->bindValue(':name', $data['name']);
             $stmt1->bindValue(':email', $data['email']);
-            $stmt1->bindValue(':password', '123');
+            $stmt1->bindValue(':password', password_hash(123, PASSWORD_DEFAULT));
             $stmt1->bindValue(':phone', $data['phone']);
             $stmt1->bindValue(':gender', $data['gender']);
             $stmt1->bindValue(':profile', 'null');

@@ -18,6 +18,9 @@ import EditStudentGrade from "./components/EditStudentGrade";
 
 import UserPanel from "./components/UserPanel";
 import LoginForm from "./components/LoginForm";
+import PasswordChangeForm from "./components/PasswordChangeForm";
+
+import Session from "./components/Session";
 function App() {
   return (
     <Routes>
@@ -42,6 +45,7 @@ function App() {
 
 
       <Route path="/users/login" element={<LoginForm />} />
+      <Route path="/users/changePassword" element={<PasswordChangeForm />} />
 
 
     </Routes>

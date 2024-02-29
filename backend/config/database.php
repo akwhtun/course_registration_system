@@ -2,9 +2,12 @@
 
 namespace backend\config;
 
+
 use PDO;
 use PDOException;
-class Database {
+
+class Database
+{
     private $host = 'localhost';
     private $dbname = 'course_registration_system';
     private $username = 'root';
@@ -13,7 +16,8 @@ class Database {
     private $pdo;
 
     // Connect to the database
-    public function connect() {
+    public function connect()
+    {
         try {
             $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname;charset=utf8mb4", $this->username, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -26,7 +30,8 @@ class Database {
     }
 
     // Disconnect from the database
-    public function disconnect() {
+    public function disconnect()
+    {
         $this->pdo = null;
         echo "Disconnected successfully";
     }

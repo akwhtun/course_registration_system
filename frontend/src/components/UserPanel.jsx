@@ -23,7 +23,7 @@ function UserPanel() {
                     <Typography color="blue-gray" className="text-lg mb-6">
                         Explore our courses, effortlessly register for classes, and join our supportive learning environment to unlock your full potential in the ever-evolving field of technology.
                     </Typography>
-                    <Button color="lightBlue" ripple="light">Get Started</Button>
+                    <Button color="gray">Get Started</Button>
                 </div>
             </div>
             <Footer />
