@@ -9,57 +9,53 @@ header('Access-Control-Allow-Headers: *');
 include("../../vendor/autoload.php");
 
 use backend\config\Database;
-use backend\controllers\StudentAccountController;
+use backend\controllers\PrequisiteController;
 
-$account = new StudentAccountController(new Database());
+$course = new PrequisiteController(new Database());
 
-// Handle requests based on HTTP method
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'students_account_list') {
-            $account->get_accounts_list();
-        } elseif ($endpoint === 'get_student') {
+        if ($endpoint === 'prequisites_list') {
+            $course->get_prequisites_list();
+        } elseif ($endpoint === 'get_prequisite') {
             $id = $_GET['id'] ?? null;
             if ($id !== null) {
-                $account->get_student($id);
+                $course->get_prequisite($id);
             } else {
                 echo json_encode(['error' => 'Fail to fetch']);
             }
-        }elseif ($endpoint === 'students_year') {
-            $year = $_GET['year'] ?? null;
-            if ($year !== null) {
-                $account->get_student_year($year);
-            } else {
-                echo json_encode(['error' => 'Fail to fetch']);
-            }
-        }  
-        else {
-            // http_response_code(404);
+        } else {
             echo json_encode(['error' => 'Endpoint not found']);
         }
         break;
-
     case 'POST':
         $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'student_register_account') {
-            $account->register_student_account();
+        if ($endpoint === 'create_prequisite') {
+            $course->create_prequisite();
         } else {
-            // http_response_code(404);
             echo json_encode(['error' => 'Endpoint not found']);
         }
         break;
     case 'PUT':
         $endpoint = $_GET['endpoint'] ?? '';
-        if ($endpoint === 'update_student') {
+        if ($endpoint === 'update_prequisite') {
             $id = $_GET['id'] ?? null;
-            $account->update_student($id);
+            $course->update_prequisite($id);
+        } else {
+            echo json_encode(['error' => 'Endpoint not found']);
+        }
+        break;
+    case 'DELETE':
+        $endpoint = $_GET['endpoint'] ?? '';
+        if ($endpoint === 'delete_prequisite') {
+            $id = $_GET['id'] ?? null;
+            $course->delete_prequisite($id);
         } else {
             echo json_encode(['error' => 'Endpoint not found']);
         }
         break;
     default:
-        // http_response_code(405);
         echo json_encode(['error' => 'Method not allowed']);
         break;
 }

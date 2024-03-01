@@ -29,7 +29,7 @@ function RegisterStudentGrade() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
-    const [studnetData, setStudentData] = useState([]);
+    const [studentData, setStudentData] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -85,7 +85,7 @@ function RegisterStudentGrade() {
 
             if (response.status === 200) {
                 // response.data.message ? setMessage(response.data.message) : setMessage(response.data.error);
-                navigate(`/students/grade/${studnetData[0].user_id}?student_id=${id}&student_year=${year}&register=Grade registered successfully`)
+                navigate(`/students/grade/${studentData[0].user_id}?student_id=${id}&student_year=${year}&register=Grade registered successfully`)
             } else {
                 setMessage(response.data.error);
             }
@@ -120,8 +120,8 @@ function RegisterStudentGrade() {
         )
     }
 
+    {console.log(studentData)}
     return (
-
 
 
         <div className="min-h-screen bg-blue-gray-50/50">
@@ -130,6 +130,7 @@ function RegisterStudentGrade() {
                 brandImg={
                     sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
                 }
+                activeNav='Students'
             />
             <div className="p-4 xl:ml-80">
                 <DashboardNavbar />
@@ -155,7 +156,7 @@ function RegisterStudentGrade() {
                             )}
 
 
-                            <Typography variant="h4" className="font-bold">Register <span className='text-blue-800'>{studnetData[0].user_name}</span>'s Grade</Typography>
+                            <Typography variant="h4" className="font-bold">Register <span className='text-blue-800'>{studentData[0].user_name}</span>'s Grade</Typography>
                         </div>
 
                         <form className="mt-6 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
@@ -167,7 +168,7 @@ function RegisterStudentGrade() {
                                     size="lg"
                                     name="id"
                                     type="text"
-                                    value={studnetData[0].user_id}
+                                    value={studentData[0].user_id}
                                     readOnly
                                 />
                             </div>
@@ -178,7 +179,7 @@ function RegisterStudentGrade() {
                                 <Input
                                     size="lg"
                                     name="name"
-                                    value={studnetData[0].user_name}
+                                    value={studentData[0].user_name}
                                     readOnly
                                 />
                             </div>
@@ -189,7 +190,7 @@ function RegisterStudentGrade() {
                                 <Input
                                     size="lg"
                                     name="year"
-                                    value={studnetData[0].student_year}
+                                    value={studentData[0].student_year}
                                     readOnly
                                 />
                             </div>
@@ -198,7 +199,7 @@ function RegisterStudentGrade() {
                                     Courses
                                 </Typography>
                                 <Select label="Select Course" name="course_name" onChange={(value) => handleSelectChange('course_id', value)}>
-                                    {studnetData.map(data =>
+                                    {studentData.map(data =>
                                         <Option key={data.id} value={String(data.id)}>{data.course_name}</Option>
                                     )}
                                 </Select>

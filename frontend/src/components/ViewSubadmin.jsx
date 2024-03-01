@@ -76,6 +76,7 @@ function ViewSubadmin() {
                 brandImg={
                     sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
                 }
+                activeNav='Sub Admins'
             />
             <div className="p-4 xl:ml-80">
                 <DashboardNavbar />
@@ -88,7 +89,7 @@ function ViewSubadmin() {
                         <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
                             <div className="flex items-center gap-6">
 
-                                {subadminData.profile === null && subadminData.gender === "male" ? (
+                                { subadminData.gender === "male" ? (
                                     <Avatar
                                         src="../../public/img/default_male_teacher.jpg"
                                         alt="male student"
@@ -96,7 +97,7 @@ function ViewSubadmin() {
                                         variant="rounded"
                                         className="rounded-lg shadow-lg shadow-blue-gray-500/40"
                                     />
-                                ) : subadminData.profile === null && subadminData.gender !== "male" ? (
+                                ) :(
                                     <Avatar
                                         src="../../public/img/default_female_teacher.jpg"
                                         alt="female student"
@@ -104,7 +105,7 @@ function ViewSubadmin() {
                                         variant="rounded"
                                         className="rounded-lg shadow-lg shadow-blue-gray-500/40"
                                     />
-                                ) : null}
+                                ) }
 
                                 <div>
                                     <Typography variant="h5" color="blue-gray" className="mb-1">
@@ -129,11 +130,6 @@ function ViewSubadmin() {
                                             <Link to={`/subadmins/edit/${subadminData.id}`}>
                                                 <PencilIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
                                                 Edit</Link>
-                                        </Tab>
-
-                                        <Tab value="settings">
-                                            <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-
                                         </Tab>
                                     </TabsHeader>
                                 </Tabs>

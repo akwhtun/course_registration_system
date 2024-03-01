@@ -26,6 +26,7 @@ function RegisterStudentAccount() {
     phone: "",
     gender: "",
     major: "",
+    semester : "",
     year: "",
   });
   const [loading, setLoading] = useState(false);
@@ -87,6 +88,7 @@ function RegisterStudentAccount() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
+        activeNav='Student Register'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
@@ -196,7 +198,21 @@ function RegisterStudentAccount() {
                 <Select label="Select Major" name="major" onChange={(value) => handleSelectChange('major', value)}>
                   <Option value='Computer Science'>Computer Science</Option>
                   <Option value='Computer Technology'>Computer Technology</Option>
-                  <Option value='Unchoose'>Unchoose</Option>
+                  <Option value='Computer Science and Computer Technology'>Computer Science and Computer Technology</Option>
+
+                </Select>
+              </div>
+              <div className="mb-1 flex flex-col gap-6">
+                <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
+                  Course Semester
+                </Typography>
+                <Select label="Select Semester" name="semester" onChange={(value) => handleSelectChange('semester', value)}>
+                  <Option value='Semester I'>Semester I</Option>
+                  <Option value='Semester II'>Semester II</Option>
+                  <Option value='Semester III'>Semester III</Option>
+                  <Option value='Semester IV'>Semester IV</Option>
+                  <Option value='Semester V'>Semester V</Option>
+                  <Option value='Semester VI'>Semester VI</Option>
 
                 </Select>
               </div>

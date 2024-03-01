@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { PiBooksFill } from "react-icons/pi";
+import { LuKeyRound } from "react-icons/lu";
+import { LuKeySquare } from "react-icons/lu";
 import { ImBooks } from "react-icons/im";
 import { PiStudentFill } from "react-icons/pi";
 import {
@@ -17,13 +20,13 @@ import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 export function Sidenav({ activeNav }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
-  const [navLinks, setNavLinks] = useState([ // Use useState correctly
+  const [navLinks, setNavLinks] = useState([ 
     {
       id: 1,
       icon: IoHomeOutline,
       name: 'Dashboard',
       isActive: true,
-      link: '/',
+      link: '/dashboard/home',
     },
     {
       id: 2,
@@ -45,7 +48,28 @@ export function Sidenav({ activeNav }) {
       name: 'Courses',
       isActive: false,
       link: '/courses/view',
-    }
+    },
+    {
+      id: 5,
+      icon: PiBooksFill,
+      name: 'Prequisites Course',
+      isActive: false,
+      link: '/prequisites/view',
+    },
+    {
+      id: 6,
+      icon: LuKeyRound,
+      name: 'Student Register',
+      isActive: false,
+      link: '/students/create',
+    },
+    {
+      id: 7,
+      icon: LuKeySquare,
+      name: 'SubAdmin Register',
+      isActive: false,
+      link: '/subadmins/create',
+    },
   ]);
 
   const sidenavTypes = {
@@ -63,7 +87,7 @@ export function Sidenav({ activeNav }) {
         return { ...link, isActive: false }; // Reset isActive for other links
       });
     });
-  }, activeNav);
+  }, []);
 
   return (
     <aside
@@ -73,7 +97,7 @@ export function Sidenav({ activeNav }) {
       <div
         className={`relative`}
       >
-        <Link to="/" className="py-6 px-8 text-center">
+        <Link to="/" className="py-4 px-8 text-center">
           <Typography
             variant="h6"
             color={sidenavType === "dark" ? "white" : "blue-gray"}
@@ -93,12 +117,12 @@ export function Sidenav({ activeNav }) {
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
         </IconButton>
       </div>
-      <div className="m-4">
+      <div className="mx-4 mb-4">
         <ul className="mb-4 flex flex-col gap-1">
-          <li>
+          <li className="mb-2">
             <Typography
               color="inherit"
-              className="font-medium capitalize"
+              className="font-bold text-xl capitalize text-center"
             >
               {/* Empty string passed as children */}
               Admin Control{''}

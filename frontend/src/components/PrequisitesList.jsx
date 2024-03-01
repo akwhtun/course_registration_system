@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { IoIosAddCircle } from "react-icons/io";
-import {  useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
+import { IoIosAddCircle } from "react-icons/io";
 import {
   Sidenav,
   DashboardNavbar,
@@ -15,11 +15,12 @@ import {
   CardHeader,
   CardBody,
   Typography,
+  Avatar,
   Chip,
   Button,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-function CoursesList() {
+function PrequisitesList() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
@@ -39,7 +40,7 @@ function CoursesList() {
     const fetchCourses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/crsforcu/backend/routes/course_api.php?endpoint=courses_list"
+          "http://localhost:8000/crsforcu/backend/routes/prequisite_course_api.php?endpoint=prequisites_list"
         );
         if (response.status === 200) {
           setCourses(response.data);
@@ -63,7 +64,7 @@ function CoursesList() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/crsforcu/backend/routes/course_api.php?endpoint=delete_course&id=${id}`
+        `http://localhost:8000/crsforcu/backend/routes/prequisite_course_api.php?endpoint=delete_prequisite&id=${id}`
       );
       if (response.status === 200) {
         response.data.message ? setMessage(response.data.message) : setMessage(response.data.error);
@@ -104,12 +105,12 @@ function CoursesList() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
-        activeNav='Courses'
+        activeNav='Prequisites Course'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
-        <Link to="/courses/create">
-        <Button variant="gradient" color="blue" size="sm" className='flex items-center justify-center'><IoIosAddCircle style={{ fontSize: '20px' }} />Add Course</Button></Link>
+        <Link to="/prequisites/create">
+        <Button variant="gradient" color="blue" size="sm" className='flex items-center justify-center'><IoIosAddCircle style={{ fontSize: '20px' }} />Add Prequisite</Button></Link>
         <div className="mt-5 mb-8 flex flex-col gap-12 ">
           <Card>
             {updateMessage && (
@@ -171,14 +172,14 @@ function CoursesList() {
             )}
             <CardHeader variant="gradient" color="gray" className="mb-8 mt-1 p-6">
               <Typography variant="h6" color="white">
-                Courses List
+                Prequisite Courses List
               </Typography>
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
               <table className="w-full min-w-[640px] table-auto">
                 <thead>
                   <tr>
-                    {["Name", "Code", "Year", "Semester","Major", ""].map((el, index) => (
+                    {["course", "prequisite_course", ""].map((el, index) => (
                       <th
                         key={index}
                         className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -195,7 +196,7 @@ function CoursesList() {
                 </thead>
                 <tbody>
                   {courses.map(
-                    ({ id, course_name, course_code, course_year, semester,major }) => {
+                    ({ id, course, prequisite_course }) => {
                       const className = `py-3 px-5 ${id === courses.length - 1
                         ? ""
                         : "border-b border-blue-gray-50"
@@ -205,37 +206,14 @@ function CoursesList() {
                         <tr key={id}>
                           <td className={`py-3 px-5`}>
                             <Typography className="text-xs font-semibold text-blue-gray-600">
-                              {course_name}
+                              {course}
                             </Typography>
                           </td>
                           <td className={`py-3 px-5`}>
                             <Typography className="text-xs font-semibold text-blue-gray-600">
-                              {course_code}
+                              {prequisite_course}
                             </Typography>
                           </td>
-                          <td className={`py-3 px-5`}>
-                            <Chip
-                              variant="gradient"
-                              color="gray"
-                              value={course_year}
-                              className="py-0.5 px-2 text-[11px] font-medium w-fit"
-                            />
-                          </td>
-                          <td className={`py-3 px-5`}>
-                            <Chip
-                              variant="outlined"
-                              value={semester}
-                              className="py-0.5 px-2 text-[11px] font-medium w-fit"
-                            />
-                          </td>
-                          <td className={`py-3 px-5`}>
-                            <Chip
-                              variant="outlined"
-                              value={major}
-                              className="py-0.5 px-2 text-[11px] font-medium w-fit"
-                            />
-                          </td>
-
                           <td className={`py-3 px-5`}>
                             {/* <Typography
                           as="a"
@@ -245,11 +223,11 @@ function CoursesList() {
                           Edit
                         </Typography> */}
 
-                            <Link to={`/courses/edit/${id}`} className="text-xs font-semibold">
+                            <Link to={`/prequisites/edit/${id}`} className="text-xs font-semibold">
                               <Button color="yellow" size='sm' className='ms-2'>Edit</Button>
                             </Link>
 
-                            <Button color="red" size='sm' className='ms-2 mt-1' onClick={() => deleteCourse(id)}>Delete</Button>
+                            <Button color="red" size='sm' className='ms-2' onClick={() => deleteCourse(id)}>Delete</Button>
 
                           </td>
                         </tr>
@@ -266,4 +244,4 @@ function CoursesList() {
   )
 }
 
-export default CoursesList;
+export default PrequisitesList;

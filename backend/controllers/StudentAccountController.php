@@ -18,7 +18,7 @@ class StudentAccountController
     public function get_accounts_list()
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year,students.id as student_id FROM users,students WHERE users.id=students.user_id";
+            $query = "SELECT users.*,students.major,students.student_year,students.semester,students.id as student_id FROM users,students WHERE users.id=students.user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,7 +37,7 @@ class StudentAccountController
         $data = json_decode(file_get_contents('php://input'), true);
 
 
-        $requiredFields = ['id', 'name', 'email', 'phone', 'gender', 'major', 'year'];
+        $requiredFields = ['id', 'name', 'email', 'phone', 'gender', 'major','semester', 'year'];
         $missingFields = [];
 
         foreach ($requiredFields as $field) {
@@ -73,11 +73,12 @@ class StudentAccountController
 
             $stmt1->execute();
 
-            $query2 = "INSERT INTO students (user_id, major, student_year) VALUES (:user_id, :major, :student_year)";
+            $query2 = "INSERT INTO students (user_id, major,semester, student_year) VALUES (:user_id, :major, :semester,:student_year)";
 
             $stmt2 = $this->conn->prepare($query2);
             $stmt2->bindValue(':user_id', $data['id']);
             $stmt2->bindValue(':major', $data['major']);
+            $stmt2->bindValue(':semester', $data['semester']);
             $stmt2->bindValue(':student_year', $data['year']);
 
             $stmt2->execute();
@@ -126,7 +127,7 @@ class StudentAccountController
     public function get_student($id)
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year,roles.name as role_name FROM users,students,roles WHERE users.id = :id and students.user_id = users.id and users.role_id = roles.id";
+            $query = "SELECT users.*,students.major,students.semester,students.student_year,roles.name as role_name FROM users,students,roles WHERE users.id = :id and students.user_id = users.id and users.role_id = roles.id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
@@ -150,7 +151,7 @@ class StudentAccountController
         $data = json_decode(file_get_contents('php://input'), true);
 
         // Check if required fields are present
-        $requiredFields = ['name', 'email', 'phone', 'gender', 'major', 'student_year'];
+        $requiredFields = ['name', 'email', 'phone', 'gender', 'major','semester', 'student_year'];
         $missingFields = [];
 
         foreach ($requiredFields as $field) {
@@ -173,6 +174,7 @@ class StudentAccountController
         $phone = $data['phone'];
         $gender = $data['gender'];
         $major = $data['major'];
+        $semester = $data['semester'];
         $student_year = $data['student_year'];
 
         try {
@@ -199,11 +201,13 @@ class StudentAccountController
             // Update student data
             $query2 = "UPDATE students
     SET major = :major,
+    semester = :semester,
     student_year = :student_year,
     updated_date = NOW()
     WHERE user_id = :id";
             $stmt2 = $this->conn->prepare($query2);
             $stmt2->bindValue(':major', $major);
+            $stmt2->bindValue(':semester', $semester);
             $stmt2->bindValue(':student_year', $student_year);
             $stmt2->bindValue(':id', $id);
             $stmt2->execute();
@@ -222,6 +226,21 @@ class StudentAccountController
         } catch (\Exception $e) {
             http_response_code(202);
             echo json_encode(['error' => 'Update Fail,Try with another unique value!']);
+        }
+    }
+    public function get_student_year($year){
+        
+        try {
+            $query = "SELECT users.*,students.major,students.student_year,students.semester,students.id as student_id FROM users,students WHERE students.student_year=:student_year AND users.id=students.user_id ";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':student_year', $year);
+            $stmt->execute();
+            $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            http_response_code(200);
+            echo json_encode($students);
+        } catch (\Exception $e) {
+            // http_response_code(500); // Internal Server Error
+            return json_encode(['error' => $e->getMessage()]);
         }
     }
 }

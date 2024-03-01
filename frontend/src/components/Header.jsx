@@ -198,7 +198,7 @@ function Header() {
                 </IconButton>
 
                 {authUser !== null ? (<></>) : (<Link to="/users/login" size="sm" variant="text">
-                    <Button size="sm">Log In</Button>
+                    <Button size="sm" color="gray">Log In</Button>
                 </Link>)}
                 {authUser !== null ? (<ProfileMenu  user={authUser}/>) : (<></>)}
             </div>

@@ -29,17 +29,11 @@ import {
 import { Link } from "react-router-dom";
 
 
-function EditCourse() {
+function EditPrequisite() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
-  const [courseData, setCourseData] = useState({
-    course_year: 'First Year',
-    semester: 'Semester I',
-    major : 'Computer Science',
-  });
-
   const [newCourseData, setNewCourseData] = useState();
   const [loading, setLoading] = useState(true);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -49,10 +43,9 @@ function EditCourse() {
     const fetchCourse = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/crsforcu/backend/routes/course_api.php?endpoint=get_course&id=${id}`
+          `http://localhost:8000/crsforcu/backend/routes/prequisite_course_api.php?endpoint=get_prequisite&id=${id}`
         );
         if (response.status === 200) {
-          setCourseData(response.data);
           setNewCourseData(response.data);
           setLoading(false);
         }
@@ -70,12 +63,6 @@ function EditCourse() {
     }));
   }
 
-  const handleSelectChange = (name, value) => {
-    setNewCourseData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
   const handleCloseAlert = () => {
     setMessage(null);
   };
@@ -84,12 +71,12 @@ function EditCourse() {
     setUpdateLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:8000/crsforcu/backend/routes/course_api.php?endpoint=update_course&id=${id}`,
+        `http://localhost:8000/crsforcu/backend/routes/prequisite_course_api.php?endpoint=update_prequisite&id=${id}`,
         newCourseData
       );
       if (response.status === 200) {
         // setMessage(response.data.message)
-        navigate(`/courses/view?update=Course updated successfully`);
+        navigate(`/prequisites/view?update=Course updated successfully`);
         setUpdateLoading(false);
 
       } else {
@@ -128,7 +115,7 @@ function EditCourse() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
-        activeNav='Courses'
+        activeNav='Prequisites Course'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
@@ -174,8 +161,15 @@ function EditCourse() {
                     <Tab value="students">
                       <Link to={`/students/view`}>
                         <UsersIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                        Courses List
+                        Prequisites
                       </Link>
+                    </Tab>
+
+
+                    <Tab value="settings">
+                      <Link to="/students/edit/:id">
+                        <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
+                        Edit</Link>
                     </Tab>
                   </TabsHeader>
                 </Tabs>
@@ -186,59 +180,19 @@ function EditCourse() {
               <div className='-mt-10 w-full'>
 
                 <Typography variant="h5" color="blue-gray" className="mb-1 text-center">
-                  Edit Course
+                  Edit Prequisite
                 </Typography>
 
                 <div className="w-full mt-5">
-                  <Input label="Course Code" name="course_code" defaultValue={courseData.course_code} onChange={handleChange} />
+                  <Input label="Course" name="course" defaultValue={newCourseData.course} onChange={handleChange} />
                 </div>
                 <div className="w-full mt-5">
-                  <Input label="Course Name" name="course_name" defaultValue={courseData.course_name} onChange={handleChange} />
+                  <Input label="Prequisite Course" name="prequisite_course" defaultValue={newCourseData.prequisite_course} onChange={handleChange} />
                 </div>
-                <div>
-                  <div className="w-full mt-5">
-                    <Select label="Select Semester" name="semester" value={courseData.semester || ''} onChange={(value) => handleSelectChange('semester', value)}>
-                      <Option value='Semester I'>Semester I</Option>
-                      <Option value='Semester II'>Semester II</Option>
-                      <Option value='Semester III'>Semester III</Option>
-                      <Option value='Semester IV'>Semester IV</Option>
-                      <Option value='Semester V'>Semester V</Option>
-                      <Option value='Semester VI'>Semester VI</Option>
-                    </Select>
-                  </div>
-                  <div className="w-full mt-5">
-                    <Select
-                      name="Course Year"
-                      label="Select Year"
-                      value={courseData.course_year || ''}
-                      onChange={(value) => handleSelectChange('course_year', value)}
-                    >
-                      <Option value="First Year">First Year</Option>
-                      <Option value="Second Year">Second Year</Option>
-                      <Option value="Third Year">Third Year</Option>
-                    </Select>
-
-                  </div>
-                  <div className="w-full mt-5">
-                    <Select
-                      name="Course Major"
-                      label="Select Major"
-                      value={courseData.major || ''}
-                      onChange={(value) => handleSelectChange('major', value)}
-                    >
-                      <Option value="Computer Science">Computer Science</Option>
-                      <Option value="Computer Technology">Computer Technology</Option>
-                      <Option value="Computer Science and Computer Technology">Computer Science and Computer Technology</Option>
-                    </Select>
-
-                  </div>
-                  <div className="w-full mt-5">
-                    <Input label="Created Date" defaultValue={courseData.created_date} readOnly />
-                  </div>
-                  <Button type="submit" disabled={updateLoading} className="mt-6" fullWidth onClick={handleUpdateData}>
+                <Button type="submit" disabled={updateLoading} className="mt-6" fullWidth onClick={handleUpdateData}>
                     {updateLoading ? "Updating..." : "Update"}
                   </Button>
-                </div>
+               
               </div>
 
 
@@ -256,4 +210,4 @@ function EditCourse() {
   )
 }
 
-export default EditCourse;
+export default EditPrequisite;

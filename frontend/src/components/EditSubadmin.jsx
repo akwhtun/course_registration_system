@@ -129,6 +129,7 @@ function EditSubadmin() {
                 brandImg={
                     sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
                 }
+                activeNav='Sub Admins'
             />
             <div className="p-4 xl:ml-80">
                 <DashboardNavbar />
@@ -200,16 +201,10 @@ function EditSubadmin() {
                                         <Tab value="subadmin">
                                             <Link to={`/subadmins/view`}>
                                                 <UsersIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                                                Subadmin
+                                                Subadmins List
                                             </Link>
                                         </Tab>
 
-
-                                        <Tab value="settings">
-                                            <Link to="/subadmins/edit/:id">
-                                                <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                                                Edit</Link>
-                                        </Tab>
                                     </TabsHeader>
                                 </Tabs>
                             </div>
@@ -246,9 +241,13 @@ function EditSubadmin() {
                             <div>
                                 <div className="w-72 mt-5">
                                     <Select label="Select Department" name="department" value={subadminData.department} onChange={(value) => handleSelectChange('department', value)}>
-
-                                        <Option value='Faculty of Computer Science'>Faculty of Computer Science</Option>
-                                        <Option value='Information Technolgy and Support'>Information Technolgy and Support</Option>
+                                    <Option value='Language Department'>Language Department</Option>
+                                    <Option value='Information Technology and Service Management'>Information Technology and Service Management</Option>
+                                    <Option value='Faculty of Computer Science'>Faculty of Computer Science</Option>
+                                    <Option value='Faculty of Information Science'>Faculty of Information Science</Option>
+                                    <Option value='Faculty of Computing'>Faculty of Computing</Option>
+                                    <Option value='Faculty of Natural Science'>Faculty of Natural Science</Option>
+                                    <Option value='Faculty of Computer Systems and Technologies'>Faculty of Computer Systems and Technologies</Option>
                                     </Select>
                                 </div>
                                 <div className="w-72 mt-5 flex items-center justify-start">

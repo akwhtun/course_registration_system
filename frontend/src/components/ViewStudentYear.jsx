@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useParams } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -20,17 +20,15 @@ import {
 } from "@/widgets/layout";
 import routes from "@/routes";
 import LinkButtons from './LinkButtons';
-function StudentList() {
+function ViewStudentYear() {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const updateParam = queryParams.get('update');
   const registerParam = queryParams.get('register');
-
+  const { year } = useParams();
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
-
-  //get students list from database
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,7 +39,7 @@ function StudentList() {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/crsforcu/backend/routes/student_account_api.php?endpoint=students_account_list"
+          `http://localhost:8000/crsforcu/backend/routes/student_account_api.php?endpoint=students_year&year=${year}`
         );
 
         if (response.status === 200) {
@@ -55,8 +53,7 @@ function StudentList() {
     };
 
     fetchStudents();
-  }, []);
-  console.log(students);
+  }, [year]);
   const handleCloseAlert = () => {
     setUpdateAlert(null);
     setRegisterAlert(null);
@@ -81,7 +78,7 @@ function StudentList() {
         />
         <div className="p-4 xl:ml-80">
           <DashboardNavbar />
-         <LinkButtons/>
+        <LinkButtons activeNav={year}/>
           <div className="mt-5 mb-8 flex flex-col gap-12 ">
             <Card>
               {updateAlert && (
@@ -124,14 +121,14 @@ function StudentList() {
               )}
               <CardHeader variant="gradient" color="gray" className="mb-8 mt-1 p-6">
                 <Typography variant="h6" color="white">
-                  Students List
+                  {year} Students List
                 </Typography>
               </CardHeader>
               <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
                 <table className="w-full min-w-[640px] table-auto">
                   <thead>
                     <tr>
-                      {["students", "details", "status", "phone", ""].map((el, index) => (
+                      {["students", "function", "status", "phone", ""].map((el, index) => (
                         <th
                           key={index}
                           className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -159,13 +156,15 @@ function StudentList() {
                             <td className={className}>
                               <div className="flex items-center gap-4">
                                 {
-                                 
+                                  profile == null ?
+                                    (
                                       gender === 'male' ? (
                                         <Avatar src="../../public/img/student_male.jpg" size="sm" alt="male" variant="rounded" />
                                       ) : (
                                         <Avatar src="../../public/img/student_female.jpg" size="sm" alt="female" variant="rounded" />
                                       )
-                                   
+                                    ) :
+                                    (<Avatar src="" size="sm" alt="female" variant="rounded" />)
                                 }
 
                                 <div>
@@ -233,4 +232,4 @@ function StudentList() {
     )
   }
 }
-export default StudentList;
+export default ViewStudentYear;

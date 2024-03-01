@@ -75,6 +75,7 @@ function SubadminsList() {
                     brandImg={
                         sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
                     }
+                    activeNav='Sub Admins'
                 />
                 <div className="p-4 xl:ml-80">
                     <DashboardNavbar />

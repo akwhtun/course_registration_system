@@ -7,7 +7,10 @@ import ViewStudent from "./components/ViewStudent";
 import EditStudent from "./components/EditStudent";
 import CoursesList from "./components/CoursesList";
 import CreateCourse from "./components/CreateCourse";
+import CreatePrequisite from "./components/CreatePrequisite";
+import PrequisitesList from "./components/PrequisitesList";
 import EditCourse from "./components/EditCourse";
+import EditPrequisite from "./components/EditPrequisite";
 import RegisterSubAdminAccount from "./components/RegisterSubAdminAccount";
 import SubadminsList from "./components/SubadminsList";
 import ViewSubadmin from "./components/ViewSubadmin";
@@ -19,8 +22,8 @@ import EditStudentGrade from "./components/EditStudentGrade";
 import UserPanel from "./components/UserPanel";
 import LoginForm from "./components/LoginForm";
 import PasswordChangeForm from "./components/PasswordChangeForm";
-
-import Session from "./components/Session";
+import Logout from "./components/Logout";
+import ViewStudentYear from "./components/ViewStudentYear";
 function App() {
   return (
     <Routes>
@@ -32,9 +35,13 @@ function App() {
       <Route path="/students/create" element={<RegisterStudentAccount />} />
       <Route path="/students/view/:id" element={<ViewStudent />} />
       <Route path="/students/edit/:id" element={<EditStudent />} />
+      <Route path="/students/year/:year" element={<ViewStudentYear />} />
       <Route path="/courses/view" element={<CoursesList />} />
       <Route path="/courses/create" element={<CreateCourse />} />
       <Route path="/courses/edit/:id" element={<EditCourse />} />
+      <Route path="/prequisites/create" element={<CreatePrequisite />} />
+      <Route path="/prequisites/view" element={<PrequisitesList />} />
+      <Route path="/prequisites/edit/:id" element={<EditPrequisite />} />
       <Route path="/subadmins/view" element={<SubadminsList />} />
       <Route path="/subadmins/create" element={<RegisterSubAdminAccount />} />
       <Route path="/subadmins/view/:id" element={<ViewSubadmin />} />
@@ -46,6 +53,7 @@ function App() {
 
       <Route path="/users/login" element={<LoginForm />} />
       <Route path="/users/changePassword" element={<PasswordChangeForm />} />
+      <Route path="/users/logout" element={<Logout />} />
 
 
     </Routes>

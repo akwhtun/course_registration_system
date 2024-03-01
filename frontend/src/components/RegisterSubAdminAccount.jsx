@@ -86,6 +86,7 @@ function RegisterSubAdminAccount() {
                 brandImg={
                     sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
                 }
+                activeNav='SubAdmin Register'
             />
             <div className="p-4 xl:ml-80">
                 <DashboardNavbar />
@@ -193,8 +194,14 @@ function RegisterSubAdminAccount() {
                                     Department
                                 </Typography>
                                 <Select label="Select department" name="department" onChange={(value) => handleSelectChange('department', value)}>
+                                    <Option value='Language Department'>Language Department</Option>
+                                    <Option value='Information Technology and Service Management'>Information Technology and Service Management</Option>
                                     <Option value='Faculty of Computer Science'>Faculty of Computer Science</Option>
-                                    <Option value='Information Technolgy and Support'>Information Technolgy and Support</Option>
+                                    <Option value='Faculty of Information Science'>Faculty of Information Science</Option>
+                                    <Option value='Faculty of Computing'>Faculty of Computing</Option>
+                                    <Option value='Faculty of Natural Science'>Faculty of Natural Science</Option>
+                                    <Option value='Faculty of Computer Systems and Technologies'>Faculty of Computer Systems and Technologies</Option>
+
                                 </Select>
                             </div>
                             <Button type="submit" disabled={loading} className="mt-6" fullWidth>

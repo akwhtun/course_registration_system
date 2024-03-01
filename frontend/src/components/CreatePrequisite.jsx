@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import {
   Input,
   Select,
@@ -15,20 +14,18 @@ import {
   Footer,
 } from "@/widgets/layout";
 import routes from "@/routes";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-function CreateCourse() {
+function CreatePrequisite() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
   const [formData, setFormData] = useState({
-    'course_code': "",
-    'course_name': "",
-    'course_year': "",
-    'semester': "",
-    'major': "",
+    'course': "",
+    'prequisite_course': "",
   });
 
   const [error, setError] = useState(null);
@@ -42,12 +39,7 @@ function CreateCourse() {
       [name]: value,
     }));
   };
-  const handleSelectChange = (name, value) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+ 
   const handleCloseAlert = () => {
     setError(null);
   };
@@ -55,7 +47,7 @@ function CreateCourse() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/crsforcu/backend/routes/course_api.php?endpoint=create_course",
+      const response = await axios.post("http://localhost:8000/crsforcu/backend/routes/prequisite_course_api.php?endpoint=create_prequisite",
         formData,
         {
           headers: {
@@ -63,7 +55,7 @@ function CreateCourse() {
           }
         });
       if (response.status === 200) {
-        navigate('/courses/view?create=course registered successfully')
+        navigate('/prequisites/view?create=course registered successfully')
       } else {
         response.data.error ? setError(response.data.error) : setError(response.data.message);
       }
@@ -81,12 +73,12 @@ function CreateCourse() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
-        activeNav='Courses'
+        activeNav='Prequisites Course'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
         <section className="m-7 flex ">
-          <Link to="/courses/view">
+        <Link to="/prequisites/view">
           <MdOutlineKeyboardBackspace style={{ fontSize: '24px' }}/>
           </Link>
           <div className="w-full lg:w-5/5 flex flex-col items-center justify-center">
@@ -111,36 +103,20 @@ function CreateCourse() {
 
 
               <Typography variant="h2" className="font-bold">
-                Create Course
+                Create Prequisite Course
               </Typography>
             </div>
 
             <form className="mt-6 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
-                  Couser Code
-                </Typography>
-                <Input
-                  size="lg"
-                  name="course_code"
-                  type="text"
-                  placeholder="Course's Code..."
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-1 flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
                   Couser Name
                 </Typography>
                 <Input
                   size="lg"
-                  name="course_name"
+                  name="course"
                   type="text"
-                  placeholder="Course's Name..."
+                  placeholder="Course..."
                   className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                   labelProps={{
                     className: "before:content-none after:content-none",
@@ -150,42 +126,21 @@ function CreateCourse() {
               </div>
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
-                  Semester
+                  Prequisite Couser Name
                 </Typography>
-                <Select label="Select Semester" name="semester" onChange={(value) => handleSelectChange('semester', value)}>
-                  <Option value='Semester I'>Semester I</Option>
-                  <Option value='Semester II'>Semester II</Option>
-                  <Option value='Semester III'>Semester III</Option>
-                  <Option value='Semester IV'>Semester IV</Option>
-                  <Option value='Semester V'>Semester V</Option>
-                  <Option value='Semester VI'>Semester VI</Option>
-
-                </Select>
+                <Input
+                  size="lg"
+                  name="prequisite_course"
+                  type="text"
+                  placeholder="PrequisiteCourse..."
+                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                  labelProps={{
+                    className: "before:content-none after:content-none",
+                  }}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="mb-1 flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
-                  Course Year
-                </Typography>
-                <Select label="Select Year" name="course_year" onChange={(value) => handleSelectChange('course_year', value)}>
-                  <Option value='First Year'>First Year</Option>
-                  <Option value='Second Year'>Second Year</Option>
-                  <Option value='Third Year'>Third Year</Option>
-
-                </Select>
-              </div>
-
-              <div className="mb-1 flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
-                  Course Major
-                </Typography>
-                <Select label="Select Year" name="course_year" onChange={(value) => handleSelectChange('major', value)}>
-                  <Option value='Computer Science'>Computer Science</Option>
-                  <Option value='Computer Technology'>Computer Technology</Option>
-                  <Option value='Computer Science and Computer Technology'>Computer Science and Computer Technology</Option>
-
-                </Select>
-              </div>
-
+            
               <Button type="submit" disabled={loading} className="mt-6" fullWidth>
                 {loading ? "Creating..." : "Create"}
               </Button>
@@ -197,4 +152,4 @@ function CreateCourse() {
     </div>
   );
 }
-export default CreateCourse;
+export default CreatePrequisite;

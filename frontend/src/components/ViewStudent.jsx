@@ -76,6 +76,7 @@ function ViewStudent() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
+        activeNav='Students'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
@@ -87,8 +88,7 @@ function ViewStudent() {
           <CardBody className="p-4">
             <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
               <div className="flex items-center gap-6">
-                {studentData.profile === null ?
-                  (studentData.gender === 'male' ? (<Avatar
+             { studentData.gender === 'male' ? (<Avatar
                     src="../../public/img/student_male.jpg"
                     alt="male student"
                     size="xl"
@@ -97,12 +97,6 @@ function ViewStudent() {
                   />) : (<Avatar
                     src="../../public/img/student_female.jpg"
                     alt="female student"
-                    size="xl"
-                    variant="rounded"
-                    className="rounded-lg shadow-lg shadow-blue-gray-500/40"
-                  />)) : (<Avatar
-                    src="../../public/img/student_male.jpg"
-                    alt="bruce-mars"
                     size="xl"
                     variant="rounded"
                     className="rounded-lg shadow-lg shadow-blue-gray-500/40"
@@ -131,11 +125,6 @@ function ViewStudent() {
                         <PencilIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
                         Edit</Link>
                     </Tab>
-
-                    <Tab value="settings">
-                      <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-
-                    </Tab>
                   </TabsHeader>
                 </Tabs>
               </div>
@@ -149,6 +138,7 @@ function ViewStudent() {
                   email: studentData.email,
                   phone: studentData.phone,
                   gender: studentData.gender,
+                  role: <Chip variant="gradient" value={studentData.role_name} color="blue" className="rounded-full" />
                 }}
               />
 
@@ -157,8 +147,8 @@ function ViewStudent() {
                 className="mt-8 capitalize"
                 details={{
                   major: studentData.major,
+                  semester: studentData.semester,
                   year: studentData.student_year,
-                  role: <Chip variant="gradient" value={studentData.role_name} color="blue" className="rounded-full" />,
                   status: studentData.suspended === 0 ? (
                     <Chip variant="gradient" value="Active" color="green" className="rounded-full" />
                   ) : (

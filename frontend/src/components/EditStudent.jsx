@@ -39,6 +39,7 @@ function EditStudent() {
   const [studentData, setStudentData] = useState({
     gender: 'female',
     major: 'CS',
+    semester: 'Semester I',
     student_year: 'Third Year',
   });
 
@@ -131,6 +132,7 @@ function EditStudent() {
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
+        activeNav='Students'
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
@@ -202,15 +204,8 @@ function EditStudent() {
                     <Tab value="students">
                       <Link to={`/students/view`}>
                         <UsersIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                        Students
+                         Students List
                       </Link>
-                    </Tab>
-
-
-                    <Tab value="settings">
-                      <Link to="/students/edit/:id">
-                        <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                        Edit</Link>
                     </Tab>
                   </TabsHeader>
                 </Tabs>
@@ -253,8 +248,19 @@ function EditStudent() {
                   <Select label="Select Major" name="major" value={studentData.major} onChange={(value) => handleSelectChange('major', value)}>
                     <Option value="Computer Science">Computer Science</Option>
                     <Option value="Computer Technology">Computer Technology</Option>
-                    <Option value="Unchoose">Unchoose</Option>
+                    <Option value="Computer Science and Computer Technology">Computer Science and Computer Technology</Option>
                   </Select>
+                </div>
+                <div className="w-72 mt-5">
+                  <Select label="Select Semester" name="semester" value={studentData.semester} onChange={(value) => handleSelectChange('semester', value)}>  
+                  <Option value='Semester I'>Semester I</Option>
+                  <Option value='Semester II'>Semester II</Option>
+                  <Option value='Semester III'>Semester III</Option>
+                  <Option value='Semester IV'>Semester IV</Option>
+                  <Option value='Semester V'>Semester V</Option>
+                  <Option value='Semester VI'>Semester VI</Option>
+
+                </Select>
                 </div>
                 <div className="w-72 mt-5">
                   <Select label="Select Year" name="student_year" value={studentData.student_year} onChange={(value) => handleSelectChange('student_year', value)}>
