@@ -15,63 +15,63 @@ class AuthController
         $this->conn = $db->connect();
     }
 
-    public function check_auth_user11()
-    {
-        $data = json_decode(file_get_contents('php://input'), true);
+    // public function check_auth_user11()
+    // {
+    //     $data = json_decode(file_get_contents('php://input'), true);
 
-        $requiredFields = ['email', 'password'];
-        $missingFields = [];
+    //     $requiredFields = ['email', 'password'];
+    //     $missingFields = [];
 
-        foreach ($requiredFields as $field) {
-            if (empty(trim($data[$field]))) {
-                $missingFields[] = ucfirst($field);
-            }
-        }
+    //     foreach ($requiredFields as $field) {
+    //         if (empty(trim($data[$field]))) {
+    //             $missingFields[] = ucfirst($field);
+    //         }
+    //     }
 
-        if (!empty($missingFields)) {
-            $errorMessage = implode(' and ', $missingFields) . ' field' . (count($missingFields) > 1 ? 's' : '') . ' ' . (count($missingFields) > 1 ? 'are' : 'is') . ' required';
-            http_response_code(202);
-            echo json_encode(['error' => $errorMessage]);
-            exit;
-        }
+    //     if (!empty($missingFields)) {
+    //         $errorMessage = implode(' and ', $missingFields) . ' field' . (count($missingFields) > 1 ? 's' : '') . ' ' . (count($missingFields) > 1 ? 'are' : 'is') . ' required';
+    //         http_response_code(202);
+    //         echo json_encode(['error' => $errorMessage]);
+    //         exit;
+    //     }
 
 
-        try {
-            $query = "SELECT users.id, users.role_id, users.status,users.name,users.email,users.gender FROM users WHERE email = :email AND password = :password";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindValue(':email', $data['email']);
-            $stmt->bindValue(':password', $data['password']);
-            $stmt->execute();
-            $check_user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (!empty($check_user)) {
-                if ($check_user['status'] == 0) {
-                    http_response_code(200);
-                    echo json_encode(['message' => 'changePassword', 'user_id' => $check_user['id'], 'role_id' => $check_user['role_id'], 'name' => $check_user['name'], 'email' => $check_user['email'], 'gender' => $check_user['gender']]);
-                    exit;
-                } else {
-                    $query = "SELECT users.*, students.id AS student_id, students.major AS student_major, students.student_year AS student_year FROM users, students WHERE users.email = :email AND users.password = :password AND users.role_id = :role_id";
-                    $stmt = $this->conn->prepare($query);
-                    $stmt->bindValue(':email', $data['email']);
-                    $stmt->bindValue(':password', $data['password']);
-                    $stmt->bindValue(':role_id', $check_user['role_id']);
-                    $stmt->execute();
-                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     try {
+    //         $query = "SELECT users.id, users.role_id, users.status,users.name,users.email,users.gender FROM users WHERE email = :email AND password = :password";
+    //         $stmt = $this->conn->prepare($query);
+    //         $stmt->bindValue(':email', $data['email']);
+    //         $stmt->bindValue(':password', $data['password']);
+    //         $stmt->execute();
+    //         $check_user = $stmt->fetch(PDO::FETCH_ASSOC);
+    //         if (!empty($check_user)) {
+    //             if ($check_user['status'] == 0) {
+    //                 http_response_code(200);
+    //                 echo json_encode(['message' => 'changePassword', 'user_id' => $check_user['id'], 'role_id' => $check_user['role_id'], 'name' => $check_user['name'], 'email' => $check_user['email'], 'gender' => $check_user['gender']]);
+    //                 exit;
+    //             } else {
+    //                 $query = "SELECT users.*, students.id AS student_id, students.major AS student_major, students.student_year AS student_year FROM users, students WHERE users.email = :email AND users.password = :password AND users.role_id = :role_id";
+    //                 $stmt = $this->conn->prepare($query);
+    //                 $stmt->bindValue(':email', $data['email']);
+    //                 $stmt->bindValue(':password', $data['password']);
+    //                 $stmt->bindValue(':role_id', $check_user['role_id']);
+    //                 $stmt->execute();
+    //                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    http_response_code(200);
-                    echo json_encode($user);
-                    exit;
-                }
-            } else {
-                http_response_code(202);
-                echo json_encode(['error' => 'Unauthorized user']);
-                exit;
-            }
-        } catch (\Exception $e) {
-            http_response_code(202);
-            echo json_encode(['error' => $e->getMessage()]);
-            exit;
-        }
-    }
+    //                 http_response_code(200);
+    //                 echo json_encode($user);
+    //                 exit;
+    //             }
+    //         } else {
+    //             http_response_code(202);
+    //             echo json_encode(['error' => 'Unauthorized user']);
+    //             exit;
+    //         }
+    //     } catch (\Exception $e) {
+    //         http_response_code(202);
+    //         echo json_encode(['error' => $e->getMessage()]);
+    //         exit;
+    //     }
+    // }
     public function check_auth_user()
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -99,29 +99,63 @@ class AuthController
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
+            // if (!empty($user) && password_verify($data['password'], $user['password'])) {
+            //     if ($user['status'] == 0) {
+            //         http_response_code(200);
+            //         echo json_encode(['message' => 'changePassword', 'user_id' => $user['id'], 'role_id' => $user['role_id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user['gender']]);
+            //         exit;
+            //     } else {
+            //         $userId = $user['id'];
+            //         $role = $user['role_id'];
+            //         if ($role == 2) {
+            //             $query1 = "SELECT users.* FROM users WHERE users.id = :user_id";
+            //             $stmt1 = $this->conn->prepare($query1);
+            //             $stmt1->bindValue(':user_id', $userId);
+            //             $stmt1->execute();
+            //             $student = $stmt1->fetch(PDO::FETCH_ASSOC);
+                    
+            //             http_response_code(200);
+            //             echo json_encode($student);
+            //             exit;
+            //         }
+                    
+                    
+            //     }
+           
+           
+            // } else {
+            //     http_response_code(202);
+            //     echo json_encode(['error' => 'Invalid Email or Password']);
+            //     exit;
+            // }
             if (!empty($user) && password_verify($data['password'], $user['password'])) {
                 if ($user['status'] == 0) {
                     http_response_code(200);
                     echo json_encode(['message' => 'changePassword', 'user_id' => $user['id'], 'role_id' => $user['role_id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user['gender']]);
                     exit;
                 } else {
-                    // $query1 = "SELECT users.*, students.id AS student_id, students.major AS student_major, students.student_year AS student_year FROM users, students WHERE users.email = :email AND users.password = :password AND users.role_id = :role_id";
-                    // $stmt1 = $this->conn->prepare($query1);
-                    // $stmt1->bindValue(':email', $data['email']);
-                    // $stmt1->bindValue(':password', $data['password']);
-                    // $stmt1->bindValue(':role_id', $user['role_id']);
-                    // $stmt1->execute();
-                    // $authUser = $stmt1->fetch(PDO::FETCH_ASSOC);
-        
-                    http_response_code(200);
-                    echo json_encode(['message' => 'Ready','user_id' => $user['id'], 'role_id' => $user['role_id'], 'name' => $user['name'], 'email' => $user['email'], 'gender' => $user['gender']]);
+                    $userId = $user['id'];
+                    $role = $user['role_id'];
+                    
+                    // Fetch student data regardless of role
+                    if($role == 3){
+                        $query1 = "SELECT users.*,students.major,students.semester,students.student_year FROM users,students WHERE users.id = :user_id AND students.user_id = users.id";
+                        $stmt1 = $this->conn->prepare($query1);
+                        $stmt1->bindValue(':user_id', $userId);
+                        $stmt1->execute();
+                        $student = $stmt1->fetch(PDO::FETCH_ASSOC);
+                        
+                        http_response_code(200);
+                        echo json_encode($student);
+                        exit;
+                    }
+                }
+            }else {
+                    http_response_code(202);
+                    echo json_encode(['error' => 'Invalid Email or Password']);
                     exit;
                 }
-            } else {
-                http_response_code(202);
-                echo json_encode(['error' => 'Invalid Email or Password']);
-                exit;
-            }
+            
         } catch (\Exception $e) {
             http_response_code(202);
             echo json_encode(['error' => $e->getMessage()]);

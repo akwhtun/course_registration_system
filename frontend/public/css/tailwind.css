@@ -2,3 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+.crf{
+    position: relative;
+}
+.crf::after{
+content: "";
+width: 210px;
+height: 2px;
+background-color: black;
+position: absolute;
+left:50%;
+bottom:0;
+transform: translateX(-50%);
+}
+.page-head{
+    position: relative;
+}
+.icon-status{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    display: flex;
+}
+.icon-status p{
+    display: flex;
+    align-items: center;
+}

@@ -125,17 +125,20 @@ const navListItems = [
     {
         label: "Docs",
         icon: CodeBracketSquareIcon,
+        link : "",
     },
     {
-        label: "Contact",
+        label: "Registration History",
         icon: EnvelopeIcon,
+        link : "/students/registration_history",
     },
 ];
 
 function NavList() {
     return (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center ">
-            {navListItems.map(({ label, icon }, key) => (
+            {navListItems.map(({ label, icon,link }, key) => (
+               <Link to={link}>
                 <Typography
                     key={label}
                     as="a"
@@ -149,6 +152,7 @@ function NavList() {
                         <span className="text-gray-900"> {label}</span>
                     </MenuItem>
                 </Typography>
+               </Link>
             ))}
         </ul>
     );
@@ -177,13 +181,14 @@ function Header() {
     return (
         <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6 sticky top-0">
             <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
-                <Typography
-                    as="a"
-                    href="#"
-                    className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
-                >
-                    University of Computer Studies
-                </Typography>
+               <Link to="/">
+               <Typography
+                  
+                  className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
+              >
+                  Computer University
+              </Typography>
+               </Link>
                 <div className="hidden lg:block">
                     <NavList />
                 </div>

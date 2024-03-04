@@ -39,6 +39,7 @@ function LoginForm() {
     
             if (response.status === 200) {
                 const responseData = response.data;
+                console.log(responseData.role_id);
                 if (responseData.message === "changePassword") {
                     navigate("/users/changePassword");
                     const user = {
@@ -52,15 +53,20 @@ function LoginForm() {
                     sessionStorage.setItem('user', JSON.stringify(user));
                 } else {
                     navigate("/");
-                    const user = {
-                        logged: true,
-                        user_id: responseData.id,
-                        role_id: responseData.role_id,
-                        name: responseData.name,
-                        email: responseData.email,
-                        gender: responseData.gender
-                    };
-                    sessionStorage.setItem('user', JSON.stringify(user));
+                    if(responseData.role_id == 3){
+                        const user = {
+                            logged: true,
+                            user_id: responseData.id,
+                            role_id: responseData.role_id,
+                            name: responseData.name,
+                            email: responseData.email,
+                            gender: responseData.gender,
+                            semester : responseData.semester,
+                            major : responseData.major,
+                            student_year : responseData.student_year
+                        };
+                        sessionStorage.setItem('user', JSON.stringify(user));
+                    }
                 }
             } else {
                 setMessage(response.data.error);

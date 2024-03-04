@@ -18,12 +18,16 @@ import EditSubadmin from "./components/EditSubadmin";
 import ViewStudentGrade from "./components/ViewStudentGrade";
 import RegisterStudentGrade from "./components/RegisterStudentGrade";
 import EditStudentGrade from "./components/EditStudentGrade";
-
+import RegisterSuccessful from "./components/RegisterSuccessful";
+import RegistrationsList from "./components/RegistrationsList";
 import UserPanel from "./components/UserPanel";
 import LoginForm from "./components/LoginForm";
 import PasswordChangeForm from "./components/PasswordChangeForm";
 import Logout from "./components/Logout";
 import ViewStudentYear from "./components/ViewStudentYear";
+import CourseRegistration from "./components/CourseRegistration";
+import ViewCourseRegistration from "./components/ViewCourseRegistration";
+import ViewRegistrationHistory from "./components/ViewRegistrationHistory";
 function App() {
   return (
     <Routes>
@@ -49,7 +53,12 @@ function App() {
       <Route path="/students/grade/:id" element={<ViewStudentGrade />} />
       <Route path="/grades/create/:id/:year" element={<RegisterStudentGrade />} />
       <Route path="/grades/edit/:id" element={<EditStudentGrade />} />
-
+      <Route path="/students/course_register" element={<CourseRegistration />} />
+      <Route path="/students/registration_history" element={<ViewRegistrationHistory />} />
+      <Route path="/students/success_register" element={<RegisterSuccessful />} />
+      <Route path="/course_registration/view" element={<RegistrationsList />} />
+      <Route path="/course_registration/view/:id" element={<ViewCourseRegistration />} />
+      <Route path="/course_registration/view/:id/:semester" element={<ViewCourseRegistration />} />
 
       <Route path="/users/login" element={<LoginForm />} />
       <Route path="/users/changePassword" element={<PasswordChangeForm />} />

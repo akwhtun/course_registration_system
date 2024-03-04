@@ -9,6 +9,7 @@ import { LuKeyRound } from "react-icons/lu";
 import { LuKeySquare } from "react-icons/lu";
 import { ImBooks } from "react-icons/im";
 import { PiStudentFill } from "react-icons/pi";
+import { FaRegistered } from "react-icons/fa6";
 import {
   Avatar,
   Button,
@@ -58,13 +59,20 @@ export function Sidenav({ activeNav }) {
     },
     {
       id: 6,
+      icon: FaRegistered,
+      name: 'Course Registration',
+      isActive: false,
+      link: '/course_registration/view',
+    },
+    {
+      id: 7,
       icon: LuKeyRound,
       name: 'Student Register',
       isActive: false,
       link: '/students/create',
     },
     {
-      id: 7,
+      id: 8,
       icon: LuKeySquare,
       name: 'SubAdmin Register',
       isActive: false,
@@ -110,7 +118,6 @@ export function Sidenav({ activeNav }) {
           variant="text"
           color="white"
           size="sm"
-          ripple={false}
           className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
           onClick={() => setOpenSidenav(dispatch, false)}
         >

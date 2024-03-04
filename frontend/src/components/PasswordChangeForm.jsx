@@ -48,7 +48,8 @@ function PasswordChangeForm() {
 
             if (response.status === 200) {
                 setMessage(response.data.message);
-                navigate('/');
+                sessionStorage.removeItem("user");
+                navigate('/users/login');
             } else {
                 setMessage(response.data.error);
             }

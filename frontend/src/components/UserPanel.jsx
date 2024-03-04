@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import { Typography, Button } from '@material-tailwind/react';
 import banner from "../../public/img/banner.jpg";
+import { Link } from 'react-router-dom';
 
 function UserPanel() {
     return (
@@ -13,7 +14,7 @@ function UserPanel() {
                     <img src={banner} alt="Banner" />
                 </div>
 
-                <div className="container mx-auto mt-16 px-4"> {/* Added px-4 for padding */}
+                <div className="container mx-auto mt-16 px-4"> 
                     <Typography as="h2" color="blue-gray" className="text-3xl font-bold mb-6">
                         Welcome to the Computer University Course Registration System
                     </Typography>
@@ -23,7 +24,9 @@ function UserPanel() {
                     <Typography color="blue-gray" className="text-lg mb-6">
                         Explore our courses, effortlessly register for classes, and join our supportive learning environment to unlock your full potential in the ever-evolving field of technology.
                     </Typography>
+                    <Link to="/students/course_register">
                     <Button color="gray">Get Started</Button>
+                    </Link>
                 </div>
             </div>
             <Footer />
