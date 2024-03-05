@@ -40,8 +40,10 @@ function LoginForm() {
             if (response.status === 200) {
                 const responseData = response.data;
                 console.log(responseData.role_id);
-                if (responseData.message === "changePassword") {
-                    navigate("/users/changePassword");
+                console.log(responseData.message);
+                console.log(responseData.message == "changePassword");
+                if (responseData.message == "changePassword") {
+                   
                     const user = {
                         logged: true,
                         user_id: responseData.user_id,
@@ -51,8 +53,9 @@ function LoginForm() {
                         gender: responseData.gender
                     };
                     sessionStorage.setItem('user', JSON.stringify(user));
+                    navigate("/users/changePassword");
                 } else {
-                    navigate("/");
+                    
                     if(responseData.role_id == 3){
                         const user = {
                             logged: true,
@@ -66,6 +69,7 @@ function LoginForm() {
                             student_year : responseData.student_year
                         };
                         sessionStorage.setItem('user', JSON.stringify(user));
+                        navigate("/");
                     }
                 }
             } else {
@@ -80,7 +84,7 @@ function LoginForm() {
     
 
     return (
-        <>
+        <div className='min-h-screen relative'>
             <Header />
             <div className="flex flex-col items-center" style={{ height: '84.8vh' }}>
                 <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-28">
@@ -107,8 +111,10 @@ function LoginForm() {
                     </form>
                 </div>
             </div>
-            <Footer />
-        </>
+           <div className='absolute bottom-0 left-0 w-full'>
+           <Footer />
+           </div>
+        </div>
     );
 }
 

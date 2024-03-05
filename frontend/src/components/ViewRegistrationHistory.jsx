@@ -3,6 +3,7 @@ import axios, { HttpStatusCode } from 'axios';
 import { Checkbox, Button } from '@material-tailwind/react';
 import Header from './Header';
 import Footer from './Footer';
+import { Link } from 'react-router-dom';
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { FaTimesCircle } from 'react-icons/fa';
 import { FaClock } from 'react-icons/fa';
@@ -96,7 +97,7 @@ function ViewRegistrationHistory() {
   }
   return (
 
-    <>
+    <div className='min-h-screen relative'>
       <Header />
      {historyData != "" ? 
      ( <div className={` page-head border border-collapse border-x-4 m-5 shadow lg:w-4/6 mx-auto ${historyData.length > 0 && historyData[0]?.status === 0 ? 'border-yellow-500' :
@@ -284,10 +285,21 @@ function ViewRegistrationHistory() {
 
    </div>
  </div>) : 
-     (<div className='w-full flex items-center justify-center text-lg shadow' style={{height:"80vh"}}>No Registration to show...</div>)}
-      <Footer />
+     (
+      <div className=" flex items-center justify-center mt-20">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-4">No Registration Data</h2>
+        <p className="text-gray-600 mb-4">There is no registration data available to show.</p>
+        <Link to="/" className="text-black hover:underline">Go to Home Page</Link>
+      </div>
+    </div>
+     
+     )}
+    <div className='absolute w-full bottom-0 left-0'>
+    <Footer />
 
-    </>
+    </div>
+    </div>
   )
 }
 

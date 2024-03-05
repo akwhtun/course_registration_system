@@ -61,7 +61,7 @@ function PasswordChangeForm() {
     };
 
     return (
-        <>
+        <div className='min-h-screen relative'>
             <Header />
             <div className="flex flex-col items-center" style={{ height: '84.8vh' }}>
                 <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-28">
@@ -96,8 +96,10 @@ function PasswordChangeForm() {
                     </form>
                 </div>
             </div>
-            <Footer />
-        </>
+            <div className='w-full absolute bottom-0 left-0'>
+<Footer/>
+            </div>
+        </div>
     );
 }
 

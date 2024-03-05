@@ -1,6 +1,4 @@
-// App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard, Auth } from "@/layouts";
 import StudentsList from "./components/StudentsList";
 import RegisterStudentAccount from "./components/RegisterStudentAccount";
 import ViewStudent from "./components/ViewStudent";
@@ -28,43 +26,81 @@ import ViewStudentYear from "./components/ViewStudentYear";
 import CourseRegistration from "./components/CourseRegistration";
 import ViewCourseRegistration from "./components/ViewCourseRegistration";
 import ViewRegistrationHistory from "./components/ViewRegistrationHistory";
+import AccessDeniedPage from "./components/AccessDeniedPage";
+import NotFound from "./components/NotFound";
+import PrivateRoutes from "./Auth/PrivateRoutes";
+import AuthRoutes from "./Auth/AuthRoutes";
 function App() {
+
   return (
     <Routes>
-      <Route path="/dashboard/*" element={<Dashboard />} />
-      <Route path="/auth/*" element={<Auth />} />
-      {/* <Route path="*" element={<Navigate to="/dashboard/home" replace />} /> */}
+      {/* all user before lognin */}
       <Route path="/" element={<UserPanel />} />
-      <Route path="/students/view" element={<StudentsList />} />
-      <Route path="/students/create" element={<RegisterStudentAccount />} />
-      <Route path="/students/view/:id" element={<ViewStudent />} />
-      <Route path="/students/edit/:id" element={<EditStudent />} />
-      <Route path="/students/year/:year" element={<ViewStudentYear />} />
-      <Route path="/courses/view" element={<CoursesList />} />
-      <Route path="/courses/create" element={<CreateCourse />} />
-      <Route path="/courses/edit/:id" element={<EditCourse />} />
-      <Route path="/prequisites/create" element={<CreatePrequisite />} />
-      <Route path="/prequisites/view" element={<PrequisitesList />} />
-      <Route path="/prequisites/edit/:id" element={<EditPrequisite />} />
-      <Route path="/subadmins/view" element={<SubadminsList />} />
-      <Route path="/subadmins/create" element={<RegisterSubAdminAccount />} />
-      <Route path="/subadmins/view/:id" element={<ViewSubadmin />} />
-      <Route path="/subadmins/edit/:id" element={<EditSubadmin />} />
-      <Route path="/students/grade/:id" element={<ViewStudentGrade />} />
-      <Route path="/grades/create/:id/:year" element={<RegisterStudentGrade />} />
-      <Route path="/grades/edit/:id" element={<EditStudentGrade />} />
-      <Route path="/students/course_register" element={<CourseRegistration />} />
-      <Route path="/students/registration_history" element={<ViewRegistrationHistory />} />
-      <Route path="/students/success_register" element={<RegisterSuccessful />} />
-      <Route path="/course_registration/view" element={<RegistrationsList />} />
-      <Route path="/course_registration/view/:id" element={<ViewCourseRegistration />} />
-      <Route path="/course_registration/view/:id/:semester" element={<ViewCourseRegistration />} />
 
-      <Route path="/users/login" element={<LoginForm />} />
-      <Route path="/users/changePassword" element={<PasswordChangeForm />} />
-      <Route path="/users/logout" element={<Logout />} />
+      {/* only can admin access */}
 
+      <Route
+        path="/students/view"
+        element={
+          <PrivateRoutes role="admin">
+            <StudentsList />
+          </PrivateRoutes>
+        }
+      />
 
+      <Route
+        path="/students/create"
+        element={
+          <PrivateRoutes role="admin">
+            <RegisterStudentAccount />
+          </PrivateRoutes>
+        }
+      />
+
+      <Route path="/students/view/:id" element={<PrivateRoutes role="admin"><ViewStudent /> </PrivateRoutes>} />
+      <Route path="/students/edit/:id" element={<PrivateRoutes role="admin"><EditStudent /> </PrivateRoutes>} />
+      <Route path="/students/year/:year" element={<PrivateRoutes role="admin"><ViewStudentYear /> </PrivateRoutes>} />
+      <Route path="/courses/view" element={<PrivateRoutes role="admin"><CoursesList /> </PrivateRoutes>} />
+      <Route path="/courses/create" element={<PrivateRoutes role="admin"><CreateCourse /> </PrivateRoutes>} />
+      <Route path="/courses/edit/:id" element={<PrivateRoutes role="admin"><EditCourse /> </PrivateRoutes>} />
+      <Route path="/prequisites/create" element={<PrivateRoutes role="admin"><CreatePrequisite /> </PrivateRoutes>} />
+      <Route path="/prequisites/view" element={<PrivateRoutes role="admin"><PrequisitesList /> </PrivateRoutes>} />
+      <Route path="/prequisites/edit/:id" element={<PrivateRoutes role="admin"><EditPrequisite /> </PrivateRoutes>} />
+      <Route path="/subadmins/view" element={<PrivateRoutes role="admin"><SubadminsList /> </PrivateRoutes>} />
+      <Route path="/subadmins/create" element={<PrivateRoutes role="admin"><RegisterSubAdminAccount /> </PrivateRoutes>} />
+      <Route path="/subadmins/view/:id" element={<PrivateRoutes role="admin"><ViewSubadmin /> </PrivateRoutes>} />
+      <Route path="/subadmins/edit/:id" element={<PrivateRoutes role="admin"><EditSubadmin /> </PrivateRoutes>} />
+      <Route path="/students/grade/:id" element={<PrivateRoutes role="admin"><ViewStudentGrade /> </PrivateRoutes>} />
+      <Route path="/grades/create/:id/:year" element={<PrivateRoutes role="admin"><RegisterStudentGrade /> </PrivateRoutes>} />
+      <Route path="/grades/edit/:id" element={<PrivateRoutes role="admin"><EditStudentGrade /> </PrivateRoutes>} />
+      <Route path="/course_registration/view" element={<PrivateRoutes role="admin"><RegistrationsList /></PrivateRoutes>} />
+      <Route path="/course_registration/view/:id/:semester" element={<PrivateRoutes role="admin"><ViewCourseRegistration /> </PrivateRoutes>} />
+
+      {/* student user access pages */}
+
+      <Route path="/students/course_register" element={<PrivateRoutes role="student">
+        <CourseRegistration />
+      </PrivateRoutes>} />
+      <Route path="/students/registration_history" element={<PrivateRoutes role="student"><ViewRegistrationHistory /></PrivateRoutes>} />
+      <Route path="/students/success_register" element={<PrivateRoutes role="student"><RegisterSuccessful /></PrivateRoutes>} />
+      <Route path="/course_registration/view/:id" element={<PrivateRoutes role="student"><ViewCourseRegistration /></PrivateRoutes>} />
+
+      {/* login ,passwordChange, logout */}
+      <Route
+        path="/users/login"
+        element={<AuthRoutes status=
+          "login"><LoginForm /></AuthRoutes>}
+      />
+      <Route path="/users/changePassword" element={<AuthRoutes status="no">
+        <PasswordChangeForm />
+      </AuthRoutes>} />
+      <Route path="/users/logout" element={<AuthRoutes status="no"><Logout /></AuthRoutes>} />
+
+      {/* access denied page */}
+      <Route path="/access_denied" element={<AccessDeniedPage />} />
+
+      {/* not found page */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
