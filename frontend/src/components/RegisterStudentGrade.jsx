@@ -116,7 +116,10 @@ function RegisterStudentGrade() {
 
     if (fetchLoading) {
         return (
-            <div>Loading ....</div>
+            <div className="loader-container">
+            <div className="loader"></div>
+            <div className="loading-text font-semibold">AKWH</div>
+          </div>
         )
     }
 

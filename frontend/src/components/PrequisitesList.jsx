@@ -81,7 +81,10 @@ function PrequisitesList() {
     setMessage(null);
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
 
   if (error) {

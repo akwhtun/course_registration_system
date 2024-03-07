@@ -49,7 +49,7 @@ function PasswordChangeForm() {
             if (response.status === 200) {
                 setMessage(response.data.message);
                 sessionStorage.removeItem("user");
-                navigate('/users/login');
+                navigate('/users/login?success=Password Changed Successfully.Login Now.');
             } else {
                 setMessage(response.data.error);
             }

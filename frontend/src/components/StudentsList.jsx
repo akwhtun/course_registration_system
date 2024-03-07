@@ -62,7 +62,7 @@ function StudentList() {
     setRegisterAlert(null);
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return <div class="loader"></div>;
   }
 
   else if (error) {

@@ -13,8 +13,11 @@ function LoginForm() {
 
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
+   
     const navigate = useNavigate();
-
+    const queryParams = new URLSearchParams(location.search);
+    const successParam = queryParams.get('success');
+    const [successMessage, setSuccessMessage] = useState(successParam);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
@@ -53,7 +56,13 @@ function LoginForm() {
                         gender: responseData.gender
                     };
                     sessionStorage.setItem('user', JSON.stringify(user));
+                   if(responseData.role_id == 3){
                     navigate("/users/changePassword");
+                   }
+                   if(responseData.role_id == 1){
+                    navigate("/admin/changePassword");
+                   }
+
                 } else {
                     
                     if(responseData.role_id == 3){
@@ -70,6 +79,31 @@ function LoginForm() {
                         };
                         sessionStorage.setItem('user', JSON.stringify(user));
                         navigate("/");
+                    }
+                    if(responseData.role_id == 2){
+                        const user = {
+                            logged: true,
+                            user_id: responseData.id,
+                            role_id: responseData.role_id,
+                            name: responseData.name,
+                            email: responseData.email,
+                            gender: responseData.gender,
+                            department : responseData.department,
+                        };
+                        sessionStorage.setItem('user', JSON.stringify(user));
+                        navigate("/");
+                    }
+                    if(responseData.role_id == 1){
+                        const user = {
+                            logged: true,
+                            user_id: responseData.id,
+                            role_id: responseData.role_id,
+                            name: responseData.name,
+                            email: responseData.email,
+                            gender: responseData.gender,
+                        };
+                        sessionStorage.setItem('user', JSON.stringify(user));
+                        navigate("/dashboard");
                     }
                 }
             } else {
@@ -89,6 +123,7 @@ function LoginForm() {
             <div className="flex flex-col items-center" style={{ height: '84.8vh' }}>
                 <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-28">
                     {message && <Typography as="p" color="red" className='text-center mb-2 font-bold'>{message}</Typography>}
+                    {successMessage && <Typography as="p" color="green" className='text-center mb-2 font-bold'>{successMessage}</Typography>}
                     <Typography as="h2" color="gray" className="text-3xl font-bold mb-6 text-center">Login</Typography>
                     <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
                         <Input

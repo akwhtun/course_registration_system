@@ -9,7 +9,6 @@ import {
   Footer,
 } from "@/widgets/layout";
 import { useNavigate } from 'react-router-dom';
-import Button from '@material-tailwind/react';
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { Checkbox } from '@material-tailwind/react';
 import routes from "@/routes";
@@ -76,11 +75,11 @@ navigate('/course_registration/view?success=Status Changed!')
 
     }
   }
-  const coursesWithSS = courseData.filter(item => item.course_code.includes('(SS)') || item.course_code.includes('(SK)'));
-  const coursesWithoutSS = courseData.filter(item => !item.course_code.includes('(SS)') && !item.course_code.includes('(SK)'));
+  const coursesWithSS = courseData.filter(item => item.course_code.includes('(SS') || item.course_code.includes('(SK'));
+  const coursesWithoutSS = courseData.filter(item => !item.course_code.includes('(SS') && !item.course_code.includes('(SK'));
 
-  const newCoursesWithSS = newCourseData.filter(item => item.course_code.includes('(SS)') || item.course_code.includes('(SK)'));
-  const newCoursesWithoutSS = newCourseData.filter(item => !item.course_code.includes('(SS)') && !item.course_code.includes('(SK)'));
+  const newCoursesWithSS = newCourseData.filter(item => item.course_code.includes('(SS') || item.course_code.includes('(SK'));
+  const newCoursesWithoutSS = newCourseData.filter(item => !item.course_code.includes('(SS') && !item.course_code.includes('(SK'));
 
   const getDegreeAndSemester = ($major, $semester) => {
     let degree = "";
@@ -103,11 +102,50 @@ navigate('/course_registration/view?success=Status Changed!')
 
     semester = $semester;
 
-    return `(${degree}) ${semester}`
+    let currentSemester;
+    switch (semester) {
+      case 'Semester 0':
+        currentSemester=1;
+        break;
+      case 'Semester I':
+        currentSemester=2;
+        break;
+      case 'Semester II':
+        currentSemester=3;
+        break;
+      case 'Semester III':
+        currentSemester=4;
+        break;
+      case 'Semester IV':
+        currentSemester=5;
+        break;
+      case 'Semester V':
+        currentSemester=6;
+        break;
+      case 'Semester VI':
+        currentSemester=7;
+        break;
+      case 'Semester VII':
+        currentSemester=8;
+        break;
+      case 'Semester XI':
+        currentSemester=9;
+        break;
+      case 'Semester XI':
+        currentSemester=10;
+        break;
+    
+      default:
+        break;
+    }
+    return `(${degree}) Semester(${currentSemester})`
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
 
   if (error) {
@@ -148,7 +186,7 @@ navigate('/course_registration/view?success=Status Changed!')
           onClick={toggleDropdown}
           disabled={ statusLoading }
         >
-          {statusLoading === true ? "Changing" : "Status"}
+          {statusLoading === true ? "Changing..." : "Status"}
          
         </button>
       </div>

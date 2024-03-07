@@ -149,6 +149,28 @@ class AuthController
                         echo json_encode($student);
                         exit;
                     }
+                    if($role == 2){
+                        $query2 = "SELECT users.*,sub_admins.department FROM users,sub_admins WHERE users.id = :user_id AND sub_admins.user_id = users.id";
+                        $stmt2 = $this->conn->prepare($query2);
+                        $stmt2->bindValue(':user_id', $userId);
+                        $stmt2->execute();
+                        $subadmin = $stmt2->fetch(PDO::FETCH_ASSOC);
+                        
+                        http_response_code(200);
+                        echo json_encode($subadmin);
+                        exit;
+                    }
+                    if($role == 1){
+                        $query3 = "SELECT users.* FROM users WHERE users.id = :user_id ";
+                        $stmt3 = $this->conn->prepare($query3);
+                        $stmt3->bindValue(':user_id', $userId);
+                        $stmt3->execute();
+                        $admin = $stmt3->fetch(PDO::FETCH_ASSOC);
+                        
+                        http_response_code(200);
+                        echo json_encode($admin);
+                        exit;
+                    }
                 }
             }else {
                     http_response_code(202);

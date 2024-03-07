@@ -195,7 +195,7 @@ function RegisterSubAdminAccount() {
                                 </Typography>
                                 <Select label="Select department" name="department" onChange={(value) => handleSelectChange('department', value)}>
                                     <Option value='Language Department'>Language Department</Option>
-                                    <Option value='Information Technology and Service Management'>Information Technology and Service Management</Option>
+                                    <Option value='Information Technology and Service Management'>Information Technology Support and Maintenance</Option>
                                     <Option value='Faculty of Computer Science'>Faculty of Computer Science</Option>
                                     <Option value='Faculty of Information Science'>Faculty of Information Science</Option>
                                     <Option value='Faculty of Computing'>Faculty of Computing</Option>

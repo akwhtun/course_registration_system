@@ -18,7 +18,22 @@ class StudentAccountController
     public function get_accounts_list()
     {
         try {
-            $query = "SELECT users.*,students.major,students.student_year,students.semester,students.id as student_id FROM users,students WHERE users.id=students.user_id";
+            $query = "SELECT users.*,students.major,students.student_year,students.semester,students.id as student_id FROM users,students WHERE users.id=students.user_id ORDER BY students.created_date DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            http_response_code(200);
+            echo json_encode($students);
+        } catch (\Exception $e) {
+            // http_response_code(500); // Internal Server Error
+            return json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function get_group_data()
+    {
+        try {
+            $query = "SELECT student_year, COUNT(*) as count FROM students GROUP BY student_year ORDER BY semester ASC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -231,7 +246,7 @@ class StudentAccountController
     public function get_student_year($year){
         
         try {
-            $query = "SELECT users.*,students.major,students.student_year,students.semester,students.id as student_id FROM users,students WHERE students.student_year=:student_year AND users.id=students.user_id ";
+            $query = "SELECT users.*,students.major,students.student_year,students.semester,students.id as student_id FROM users,students WHERE students.student_year=:student_year AND users.id=students.user_id ORDER BY students.created_date DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':student_year', $year);
             $stmt->execute();

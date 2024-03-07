@@ -110,8 +110,8 @@ class StudentGradeController
             echo json_encode(['error' => $errorMessage]);
             exit;
         }
-        if ($data["marks"] > 100) {
-            $errorMessage = "Marks must be less than 100 ";
+        if ($data["marks"] < 0 ||  $data["marks"] > 100) {
+            $errorMessage = "Mark is not valid!";
             http_response_code(202);
             echo json_encode(['error' => $errorMessage]);
             exit;
@@ -205,6 +205,12 @@ class StudentGradeController
             exit;
         }
 
+        if ($data["marks"] < 0 ||  $data["marks"] > 100) {
+            $errorMessage = "Mark is not valid!";
+            http_response_code(202);
+            echo json_encode(['error' => $errorMessage]);
+            exit;
+        }
         try {
             // Update grade data
             $query = "UPDATE grades SET 

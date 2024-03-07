@@ -21,23 +21,22 @@ import {
     Bars2Icon,
     EnvelopeIcon,
 } from "@heroicons/react/24/solid";
-import { KeyIcon } from "@heroicons/react/24/outline";
-
+import { MdAccountCircle, MdLock, MdExitToApp } from 'react-icons/md';
 // profile menu component
 const profileMenuItems = [
     {
         label: "My Profile",
-        icon: UserCircleIcon,
+        icon: MdAccountCircle,
         link : "/users/profile",
     },
     {
         label: "Change Password",
-        icon: KeyIcon,
+        icon: MdLock,
         link : "/users/changePassword",
     },
     {
         label: "Sign Out",
-        icon: PowerIcon,
+        icon: MdExitToApp,
         link :"/users/logout",
     },
 ];
@@ -74,7 +73,7 @@ function ProfileMenu({user}) {
                     />)
                     }
                     <div>
-                        <Typography  variant="small" color="gray" className="font-semibold" textGradient>
+                        <Typography  variant="small"  className="font-semibold text-black" textGradient>
                             {user.name}
                         </Typography>
                     </div>
@@ -85,27 +84,23 @@ function ProfileMenu({user}) {
                     />
                 </Button>
             </MenuHandler>
-            <MenuList className="p-1">
+            <MenuList className="p-1 text-lg text-black">
                 {profileMenuItems.map(({ label, icon,link }, key) => {
-                    const isLastItem = key === profileMenuItems.length - 1;
+                    // const isLastItem = key === profileMenuItems.length - 1;
                     return (
                         <MenuItem
-                            key={label}
+                            key={key}
                             onClick={closeMenu}
-                            className={`flex items-center gap-2 rounded ${isLastItem
-                                ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                                : ""
-                                }`}
+                            className="flex items-center text-base"
                         >
                             {React.createElement(icon, {
-                                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                                strokeWidth: 2,
+                                className: `h-4 w-4 me-4 text-lg`
+                                // strokeWidth: 2,
                             })}
                             <Typography
                                 as="span"
-                                variant="small"
-                                className="font-normal"
-                                color={isLastItem ? "red" : "inherit"}
+                                // variant="small"
+                                className="font-normal text-base"
                             >
                               <Link to={link}>
                               {label}
@@ -125,10 +120,10 @@ const navListItems = [
     {
         label: "Docs",
         icon: CodeBracketSquareIcon,
-        link : "",
+        link : "/users/about",
     },
     {
-        label: "Registration History",
+        label: "History",
         icon: EnvelopeIcon,
         link : "/students/registration_history",
     },
@@ -140,7 +135,7 @@ function NavList() {
             {navListItems.map(({ label, icon,link }, key) => (
                <Link to={link}>
                 <Typography
-                    key={label}
+                    key={key}
                     as="a"
                     href="#"
                     variant="small"

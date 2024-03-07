@@ -15,7 +15,7 @@ class PrequisiteController
     public function get_prequisites_list()
     {
         try {
-            $query = "SELECT * FROM prequisites";
+            $query = "SELECT * FROM prequisites ORDER BY id DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);

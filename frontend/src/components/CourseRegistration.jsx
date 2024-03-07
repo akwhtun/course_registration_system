@@ -5,7 +5,7 @@ import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { FaRegPaperPlane } from "react-icons/fa6";
-
+import { Link } from 'react-router-dom';
 function CourseRegistration() {
   const [authUser, setAuthUser] = useState(null);
   const [courseData, setCourseData] = useState([]);
@@ -49,11 +49,11 @@ function CourseRegistration() {
     }
   }, []);
 
-  const coursesWithSS = courseData.filter(item => item.course_code.includes('(SS)') || item.course_code.includes('(SK)'));
-  const coursesWithoutSS = courseData.filter(item => !item.course_code.includes('(SS)') && !item.course_code.includes('(SK)'));
+  const coursesWithSS = courseData.filter(item => item.course_code.includes('(SS') || item.course_code.includes('(SK'));
+  const coursesWithoutSS = courseData.filter(item => !item.course_code.includes('(SS') && !item.course_code.includes('(SK'));
 
-  const newCoursesWithSS = newCourseData.filter(item => item.course_code.includes('(SS)') || item.course_code.includes('(SK)'));
-  const newCoursesWithoutSS = newCourseData.filter(item => !item.course_code.includes('(SS)') && !item.course_code.includes('(SK)'));
+  const newCoursesWithSS = newCourseData.filter(item => item.course_code.includes('(SS') || item.course_code.includes('(SK'));
+  const newCoursesWithoutSS = newCourseData.filter(item => !item.course_code.includes('(SS') && !item.course_code.includes('(SK'));
 
   const getCurrentAcademicYear = () => {
     const currentDate = new Date();
@@ -66,7 +66,7 @@ function CourseRegistration() {
   const getDegreeAndSemester = () => {
     let degree = "";
     let semester = "";
-    const major = courseData && courseData[0]?.major; // Added optional chaining (?)
+    const major = newCourseData && newCourseData[0]?.major; // Added optional chaining (?)
 
     switch (major) {
       case "Computer Science and Computer Technology":
@@ -82,9 +82,46 @@ function CourseRegistration() {
         break;
     }
 
-    semester = courseData && courseData[0]?.semester; // Added optional chaining (?)
+    // semester = courseData && courseData[0].semester ? courseData[0] : 'Semester 0';
+    semester = courseData && courseData.length > 0 && courseData[0].semester ? courseData[0].semester : 'Semester 0';
 
-    return `(${degree}) ${semester}`
+    let currentSemester;
+    switch (semester) {
+      case 'Semester 0':
+        currentSemester=1;
+        break;
+      case 'Semester I':
+        currentSemester=2;
+        break;
+      case 'Semester II':
+        currentSemester=3;
+        break;
+      case 'Semester III':
+        currentSemester=4;
+        break;
+      case 'Semester IV':
+        currentSemester=5;
+        break;
+      case 'Semester V':
+        currentSemester=6;
+        break;
+      case 'Semester VI':
+        currentSemester=7;
+        break;
+      case 'Semester VII':
+        currentSemester=8;
+        break;
+      case 'Semester VIII':
+        currentSemester=9;
+        break;
+      case 'Semester IX':
+        currentSemester=10;
+        break;
+  
+      default:
+        break;
+    }
+    return `(${degree}) Semester(${currentSemester})`
   }
 
   const handleCheckboxChange = (event, course) => {
@@ -120,7 +157,10 @@ function CourseRegistration() {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
 
   if (error) {
@@ -144,22 +184,23 @@ function CourseRegistration() {
          <p className='text-base'>This completed form must be submitted to the office of register.</p>
          {message}
          <div className='mt-3'>
-           <p className='mt-3'><span className='md:w-72 w-60 inline-block'>1. Student Name </span> :  <span className='ms-3 font-bold'>{courseData.length > 0 && courseData[0]?.name}</span></p>
-           <p className='mt-3'><span className='md:w-72 w-60 inline-block'>2. Registration Number </span> :  <span className='ms-3 font-bold'>{courseData.length > 0 && courseData[0]?.id}</span></p>
-           <p className='mt-3'><span className='md:w-72 w-60 inline-block'>3. Email Address/Phone Number </span> :  <span className='ms-3 font-bold'>{courseData.length > 0 && `${courseData[0]?.email}/${courseData[0]?.phone}`}</span> </p>
+           <p className='mt-3'><span className='md:w-72 w-60 inline-block'>1. Student Name </span> :  <span className='ms-3 font-bold'>{newCourseData.length > 0 && newCourseData[0]?.name}</span></p>
+           <p className='mt-3'><span className='md:w-72 w-60 inline-block'>2. Registration Number </span> :  <span className='ms-3 font-bold'>{newCourseData.length > 0 && newCourseData[0]?.id}</span></p>
+           <p className='mt-3'><span className='md:w-72 w-60 inline-block'>3. Email Address/Phone Number </span> :  <span className='ms-3 font-bold'>{newCourseData.length > 0 && `${newCourseData[0]?.email}/${newCourseData[0]?.phone}`}</span> </p>
  
+ {/* {console.log(courseData, newCourseData)} */}
            {
-             newCourseData == "" ?
+             courseData == "" ?
                (
                  <div className='mt-5'>
                    <p>4. The new Subjects that I would like to take for this Semester (Tick the Box) </p>
                    <div className='ms-2'>
  
  
-                     {coursesWithoutSS.map((item, index) => {
+                     {newCoursesWithoutSS.map((item, index) => {
                        return (
                          <div className='flex items-center mt-1' key={index}>
-                           <Checkbox />
+                           <Checkbox onChange={(event) => handleCheckboxChange(event, item)}/>
                            <span className='w-32 inline-block'>{item.course_code}</span>
                            <span>{item.course_name}</span>
                          </div>
@@ -173,10 +214,10 @@ function CourseRegistration() {
                    <p className='mt-5 ms-6'>Supporting Skills:</p>
                    <div className='ms-2 mt-1'>
  
-                     {coursesWithSS.map((item, index) => {
+                     {newCoursesWithSS.map((item, index) => {
                        return (
                          <div className='flex items-center mt-1' key={index}>
-                           <Checkbox />
+                           <Checkbox onChange={(event) => handleCheckboxChange(event, item)}/>
                            <span className='w-32 inline-block'>{item.course_code}</span>
                            <span>{item.course_name}</span>
                          </div>
@@ -281,7 +322,16 @@ function CourseRegistration() {
        </div>
        </>
       ) : 
-      (<div className='h-20 w-full'>You can't register now!</div>)
+      (
+
+        <div className=" flex items-center justify-center " style={{height:"86.5vh"}}>
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">Registration Successful</h2>
+          <p className="text-gray-600 mb-4">No more registration.</p>
+          <Link to="/" className="text-black hover:underline">Go to Home Page</Link>
+        </div>
+      </div>
+      )
       
           }
      

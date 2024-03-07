@@ -18,7 +18,7 @@ class SubadminAccountController
     public function get_accounts_list()
     {
         try {
-            $query = "SELECT users.*,sub_admins.department FROM users,sub_admins WHERE users.id=sub_admins.user_id";
+            $query = "SELECT users.*,sub_admins.department FROM users,sub_admins WHERE users.id=sub_admins.user_id ORDER BY sub_admins.created_date DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $subadmins = $stmt->fetchAll(PDO::FETCH_ASSOC);

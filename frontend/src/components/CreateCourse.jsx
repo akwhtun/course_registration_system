@@ -159,6 +159,10 @@ function CreateCourse() {
                   <Option value='Semester IV'>Semester IV</Option>
                   <Option value='Semester V'>Semester V</Option>
                   <Option value='Semester VI'>Semester VI</Option>
+                  <Option value='Semester VII'>Semester VII</Option>
+                  <Option value='Semester VIII'>Semester VIII</Option>
+                  <Option value='Semester XI'>Semester XI</Option>
+                  <Option value='Semester X'>Semester X</Option>
 
                 </Select>
               </div>
@@ -170,6 +174,8 @@ function CreateCourse() {
                   <Option value='First Year'>First Year</Option>
                   <Option value='Second Year'>Second Year</Option>
                   <Option value='Third Year'>Third Year</Option>
+                  <Option value='Fourth Year'>Fourth Year</Option>
+                  <Option value='Fifth Year'>Fifth Year</Option>
 
                 </Select>
               </div>
@@ -178,7 +184,7 @@ function CreateCourse() {
                 <Typography variant="small" color="blue-gray" className="-mb-4 font-medium">
                   Course Major
                 </Typography>
-                <Select label="Select Year" name="course_year" onChange={(value) => handleSelectChange('major', value)}>
+                <Select label="Select Major" name="course_year" onChange={(value) => handleSelectChange('major', value)}>
                   <Option value='Computer Science'>Computer Science</Option>
                   <Option value='Computer Technology'>Computer Technology</Option>
                   <Option value='Computer Science and Computer Technology'>Computer Science and Computer Technology</Option>

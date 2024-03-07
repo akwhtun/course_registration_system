@@ -47,11 +47,11 @@ function ViewRegistrationHistory() {
     }
   }, [authUser]);
 
-  const coursesWithSS = courseData.filter(item => item.course_code.includes('(SS)') || item.course_code.includes('(SK)'));
-  const coursesWithoutSS = courseData.filter(item => !item.course_code.includes('(SS)') && !item.course_code.includes('(SK)'));
+  const coursesWithSS = courseData.filter(item => item.course_code.includes('(SS') || item.course_code.includes('(SK'));
+  const coursesWithoutSS = courseData.filter(item => !item.course_code.includes('(SS') && !item.course_code.includes('(SK'));
 
-  const newCoursesWithSS = newCourseData.filter(item => item.course_code.includes('(SS)') || item.course_code.includes('(SK)'));
-  const newCoursesWithoutSS = newCourseData.filter(item => !item.course_code.includes('(SS)') && !item.course_code.includes('(SK)'));
+  const newCoursesWithSS = newCourseData.filter(item => item.course_code.includes('(SS') || item.course_code.includes('(SK'));
+  const newCoursesWithoutSS = newCourseData.filter(item => !item.course_code.includes('(SS') && !item.course_code.includes('(SK'));
 
   const getDegreeAndSemester = ($major, $semester) => {
     let degree = "";
@@ -74,11 +74,50 @@ function ViewRegistrationHistory() {
 
     semester = $semester;
 
-    return `(${degree}) ${semester}`
+    let currentSemester;
+    switch (semester) {
+      case 'Semester 0':
+        currentSemester = 1;
+        break;
+      case 'Semester I':
+        currentSemester = 2;
+        break;
+      case 'Semester II':
+        currentSemester = 3;
+        break;
+      case 'Semester III':
+        currentSemester = 4;
+        break;
+      case 'Semester IV':
+        currentSemester = 5;
+        break;
+      case 'Semester V':
+        currentSemester = 6;
+        break;
+      case 'Semester VI':
+        currentSemester = 7;
+        break;
+      case 'Semester VII':
+        currentSemester = 8;
+        break;
+      case 'Semester XI':
+        currentSemester = 9;
+        break;
+      case 'Semester XI':
+        currentSemester = 10;
+        break;
+
+      default:
+        break;
+    }
+    return `(${degree}) Semester(${currentSemester})`
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
 
   if (error) {
@@ -97,208 +136,207 @@ function ViewRegistrationHistory() {
   }
   return (
 
-    <div className='min-h-screen relative'>
+    <div >
       <Header />
-     {historyData != "" ? 
-     ( <div className={` page-head border border-collapse border-x-4 m-5 shadow lg:w-4/6 mx-auto ${historyData.length > 0 && historyData[0]?.status === 0 ? 'border-yellow-500' :
-     historyData.length > 0 && historyData[0]?.status === 1 ? 'border-green-500' :
-       historyData.length > 0 && historyData[0]?.status === 2 ? 'border-red-500' :
-         ''}`}>
+      {historyData.length === 0 || historyData[0].status === 0 || historyData[0].status === 2 ?
+        (<div className={` page-head border border-collapse border-x-4 m-5 shadow lg:w-4/6 mx-auto ${historyData.length > 0 && historyData[0]?.status === 0 ? 'border-yellow-500' :
+          historyData.length > 0 && historyData[0]?.status === 1 ? 'border-green-500' :
+            historyData.length > 0 && historyData[0]?.status === 2 ? 'border-red-500' :
+              ''}`}>
 
 
-   <div className="icon-status">
-     {historyData.length > 0 && historyData[0]?.status === 0 ? (
-       <p className='text-yellow-500'>
-         Pending... <FaClock />
-       </p>
-     ) : (
-       ''
-     )}
+          <div className="icon-status">
+            {historyData.length > 0 && historyData[0]?.status === 0 ? (
+              <p className='text-yellow-500'>
+                Pending... <FaClock />
+              </p>
+            ) : (
+              ''
+            )}
 
-     {historyData.length > 0 && historyData[0]?.status === 1 ? (
-       <p className='text-green-500'>
-         Approve <IoIosCheckmarkCircleOutline />
-       </p>
-     ) : (
-       ''
-     )}
+            {historyData.length > 0 && historyData[0]?.status === 1 ? (
+              <p className='text-green-500'>
+                Approve <IoIosCheckmarkCircleOutline />
+              </p>
+            ) : (
+              ''
+            )}
 
-     {historyData.length > 0 && historyData[0]?.status === 2 ? (
-       <p className='text-red-500'>
-         Reject <FaTimesCircle />
-       </p>
-     ) : (
-       ''
-     )}
-   </div>
-
-
-   <div className='text-center font-semibold text-lg bg-gray-50 text-gray-900 mt-3'>
-     <h1>University of Computer Studies (Pakokku)</h1>
-     <h1>{historyData.length > 0 && historyData[0]?.academic_year} Academic Year</h1>
-     <h1>{getDegreeAndSemester(historyData.length > 0 && historyData[0]?.major, historyData.length > 0 && historyData[0]?.semester)}</h1>
-   </div>
-   <h1 className='mt-4 text-center font-semibold text-lg crf'>Course Registration Form</h1>
-   <div className='container mx-auto mt-10 md:px-24 px-5'>
-
-     <p className='text-base'>This completed form must be submitted to the office of register.</p>
-     <div className='mt-3'>
-       <p className='mt-3'><span className='md:w-72 w-60 inline-block'>1. Student Name </span> :  <span className='ms-3 font-bold'>{historyData.length > 0 && historyData[0]?.student_name}</span></p>
-       <p className='mt-3'><span className='md:w-72 w-60 inline-block'>2. Registration Number </span> :  <span className='ms-3 font-bold'>{historyData.length > 0 && historyData[0]?.user_id}</span></p>
-       <p className='mt-3'><span className='md:w-72 w-60 inline-block'>3. Email Address/Phone Number </span> :  <span className='ms-3 font-bold'>{historyData.length > 0 && `${historyData[0]?.email}/${historyData[0]?.phone}`}</span> </p>
-
-       {
-         newCourseData == "" ?
-           (
-             <div className='mt-5'>
-               <p>4. The new Subjects that I would like to take for this Semester (Tick the Box) </p>
-               <div className='ms-2'>
+            {historyData.length > 0 && historyData[0]?.status === 2 ? (
+              <p className='text-red-500'>
+                Reject <FaTimesCircle />
+              </p>
+            ) : (
+              ''
+            )}
+          </div>
 
 
-                 {coursesWithoutSS.map((item, index) => {
-                   const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
-                   return (
-                     <div className='flex items-center mt-1' key={index}>
-                       <Checkbox defaultChecked={isCourseChecked} disabled />
-                       <span className='w-32 inline-block'>{item.course_code}</span>
-                       <span>{item.course_name}</span>
-                     </div>
-                   );
-                 })}
+          <div className='text-center font-semibold text-lg bg-gray-50 text-gray-900 mt-3'>
+            <h1>University of Computer Studies (Pakokku)</h1>
+            <h1>{historyData.length > 0 && historyData[0]?.academic_year} Academic Year</h1>
+            <h1>{getDegreeAndSemester(historyData.length > 0 && historyData[0]?.major, historyData.length > 0 && historyData[0]?.semester)}</h1>
+          </div>
+          <h1 className='mt-4 text-center font-semibold text-lg crf'>Course Registration Form</h1>
+          <div className='container mx-auto mt-10 md:px-24 px-5'>
+
+            <p className='text-base'>This completed form must be submitted to the office of register.</p>
+            <div className='mt-3'>
+              <p className='mt-3'><span className='md:w-72 w-60 inline-block'>1. Student Name </span> :  <span className='ms-3 font-bold'>{historyData.length > 0 && historyData[0]?.student_name}</span></p>
+              <p className='mt-3'><span className='md:w-72 w-60 inline-block'>2. Registration Number </span> :  <span className='ms-3 font-bold'>{historyData.length > 0 && historyData[0]?.user_id}</span></p>
+              <p className='mt-3'><span className='md:w-72 w-60 inline-block'>3. Email Address/Phone Number </span> :  <span className='ms-3 font-bold'>{historyData.length > 0 && `${historyData[0]?.email}/${historyData[0]?.phone}`}</span> </p>
+
+              {
+                newCourseData == "" ?
+                  (
+                    <div className='mt-5'>
+                      <p>4. The new Subjects that I would like to take for this Semester (Tick the Box) </p>
+                      <div className='ms-2'>
 
 
-
-               </div>
-
-               <p className='mt-5 ms-6'>Supporting Skills:</p>
-               <div className='ms-2 mt-1'>
-
-                 {coursesWithSS.map((item, index) => {
-                   const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
-                   return (
-
-                     <div className='flex items-center mt-1' key={index}>
-
-                       <Checkbox disabled defaultChecked={isCourseChecked} />
-                       <span className='w-32 inline-block'>{item.course_code}</span>
-                       <span>{item.course_name}</span>
-                     </div>
-                   );
-                 })}
+                        {coursesWithoutSS.map((item, index) => {
+                          const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
+                          return (
+                            <div className='flex items-center mt-1' key={index}>
+                              <Checkbox defaultChecked={isCourseChecked} disabled />
+                              <span className='w-32 inline-block'>{item.course_code}</span>
+                              <span>{item.course_name}</span>
+                            </div>
+                          );
+                        })}
 
 
 
-               </div>
-             </div>
-           ) :
-           (<div>
+                      </div>
 
-             <div className='mt-5'>
-               <span className='md:w-72 w-60 inline-block'>4. Select NOT - Completed subjects </span>:
-               <div className='ms-2'>
-                 {coursesWithoutSS.map((item, index) => {
-                   const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
-                   return (
-                     <div className='flex items-center mt-1' key={index}>
-                       <Checkbox defaultChecked={isCourseChecked} disabled />
-                       <span className='w-32 inline-block'>{item.course_code}</span>
-                       <span>{item.course_name}</span>
-                     </div>
-                   );
-                 })}
-               </div>
+                      <p className='mt-5 ms-6'>Supporting Skills:</p>
+                      <div className='ms-2 mt-1'>
 
+                        {coursesWithSS.map((item, index) => {
+                          const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
+                          return (
 
-               <p className='mt-5 ms-6'>Supporting Skills:</p>
-               <div className='ms-2 mt-1'>
+                            <div className='flex items-center mt-1' key={index}>
 
-
-                 {coursesWithSS.map((item, index) => {
-                   const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
-                   return (
-
-                     <div className='flex items-center mt-1' key={index}>
-                       <Checkbox
-                         disabled
-                         defaultChecked={isCourseChecked}
-                       />
-                       <span className='w-32 inline-block'>{item.course_code}</span>
-                       <span>{item.course_name}</span>
-                     </div>
-                   );
-                 })}
+                              <Checkbox disabled defaultChecked={isCourseChecked} />
+                              <span className='w-32 inline-block'>{item.course_code}</span>
+                              <span>{item.course_name}</span>
+                            </div>
+                          );
+                        })}
 
 
 
+                      </div>
+                    </div>
+                  ) :
+                  (<div>
 
-               </div>
-             </div>
-
-
-             <div className='mt-5'>
-               <p>5. The new Subjects that I would like to take for this Semester (Tick the Box) </p>
-               <div className='ms-2'>
-
-                 {newCoursesWithoutSS.map((item, index) => {
-                   const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
-
-                   return (
-                     <div className='flex items-center mt-1' key={index}>
-                       <Checkbox
-                         defaultChecked={isCourseChecked}
-                         disabled
-                       />
-                       <span className='w-32 inline-block'>{item.course_code}</span>
-                       <span>{item.course_name}</span>
-                     </div>
-                   );
-                 })}
+                    <div className='mt-5'>
+                      <span className='md:w-72 w-60 inline-block'>4. Select NOT - Completed subjects </span>:
+                      <div className='ms-2'>
+                        {coursesWithoutSS.map((item, index) => {
+                          const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
+                          return (
+                            <div className='flex items-center mt-1' key={index}>
+                              <Checkbox defaultChecked={isCourseChecked} disabled />
+                              <span className='w-32 inline-block'>{item.course_code}</span>
+                              <span>{item.course_name}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
 
 
-
-               </div>
-
-               <p className='mt-5 ms-6'>Supporting Skills:</p>
-               <div className='ms-2 mt-1'>
-                 {newCoursesWithSS.map((item, index) => {
-                   const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
-                   return (
-                     <div className='flex items-center mt-1' key={index}>
-                       <Checkbox
-                         disabled
-                         defaultChecked={isCourseChecked}
-                       />
-                       <span className='w-32 inline-block'>{item.course_code}</span>
-                       <span>{item.course_name}</span>
-                     </div>
-                   );
-                 })}
+                      <p className='mt-5 ms-6'>Supporting Skills:</p>
+                      <div className='ms-2 mt-1'>
 
 
-               </div>
-             </div>
-           </div>)
-       }
-       <span className='inline-block w-52 ms-6 mt-6 mb-3'>Student Aggrement:</span> I agree to abide by all policies and procedures.
-     </div>
+                        {coursesWithSS.map((item, index) => {
+                          const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
+                          return (
+
+                            <div className='flex items-center mt-1' key={index}>
+                              <Checkbox
+                                disabled
+                                defaultChecked={isCourseChecked}
+                              />
+                              <span className='w-32 inline-block'>{item.course_code}</span>
+                              <span>{item.course_name}</span>
+                            </div>
+                          );
+                        })}
 
 
-   </div>
- </div>) : 
-     (
-      <div className=" flex items-center justify-center mt-20">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">No Registration Data</h2>
-        <p className="text-gray-600 mb-4">There is no registration data available to show.</p>
-        <Link to="/" className="text-black hover:underline">Go to Home Page</Link>
+
+
+                      </div>
+                    </div>
+
+
+                    <div className='mt-5'>
+                      <p>5. The new Subjects that I would like to take for this Semester (Tick the Box) </p>
+                      <div className='ms-2'>
+
+                        {newCoursesWithoutSS.map((item, index) => {
+                          const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
+
+                          return (
+                            <div className='flex items-center mt-1' key={index}>
+                              <Checkbox
+                                defaultChecked={isCourseChecked}
+                                disabled
+                              />
+                              <span className='w-32 inline-block'>{item.course_code}</span>
+                              <span>{item.course_name}</span>
+                            </div>
+                          );
+                        })}
+
+
+
+                      </div>
+
+                      <p className='mt-5 ms-6'>Supporting Skills:</p>
+                      <div className='ms-2 mt-1'>
+                        {newCoursesWithSS.map((item, index) => {
+                          const isCourseChecked = historyData.find(history => history.course_name === item.course_name);
+                          return (
+                            <div className='flex items-center mt-1' key={index}>
+                              <Checkbox
+                                disabled
+                                defaultChecked={isCourseChecked}
+                              />
+                              <span className='w-32 inline-block'>{item.course_code}</span>
+                              <span>{item.course_name}</span>
+                            </div>
+                          );
+                        })}
+
+
+                      </div>
+                    </div>
+                  </div>)
+              }
+              <span className='inline-block w-52 ms-6 mt-6 mb-3'>Student Aggrement:</span> I agree to abide by all policies and procedures.
+            </div>
+
+
+          </div>
+        </div>) :
+        (
+          <div className=" flex items-center justify-center " style={{ height: "86.5vh" }}>
+            <div className="bg-white p-8 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4">No Registration Data</h2>
+              <p className="text-gray-600 mb-4">There is no registration data available to show.</p>
+              <Link to="/" className="text-black hover:underline">Go to Home Page</Link>
+            </div>
+          </div>
+
+        )}
+      <div className='w-full'>
+        <Footer />
       </div>
-    </div>
-     
-     )}
-    <div className='absolute w-full bottom-0 left-0'>
-    <Footer />
-
-    </div>
     </div>
   )
 }

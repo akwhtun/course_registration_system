@@ -25,9 +25,9 @@ export function Sidenav({ activeNav }) {
     {
       id: 1,
       icon: IoHomeOutline,
-      name: 'Dashboard',
-      isActive: true,
-      link: '/dashboard/home',
+      name: 'dashboard',
+      isActive: false,
+      link: '/dashboard',
     },
     {
       id: 2,

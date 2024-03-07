@@ -15,7 +15,8 @@ class CourseController
     public function get_courses_list()
     {
         try {
-            $query = "SELECT * FROM courses";
+            $query = "SELECT * FROM courses ORDER BY course_name ASC;
+            ";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);

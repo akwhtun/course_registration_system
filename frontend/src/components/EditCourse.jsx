@@ -117,7 +117,10 @@ function EditCourse() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
   return (
 
@@ -204,6 +207,10 @@ function EditCourse() {
                       <Option value='Semester IV'>Semester IV</Option>
                       <Option value='Semester V'>Semester V</Option>
                       <Option value='Semester VI'>Semester VI</Option>
+                      <Option value='Semester VII'>Semester VII</Option>
+                      <Option value='Semester VIII'>Semester VIII</Option>
+                      <Option value='Semester XI'>Semester XI</Option>
+                      <Option value='Semester X'>Semester X</Option>
                     </Select>
                   </div>
                   <div className="w-full mt-5">
@@ -216,6 +223,8 @@ function EditCourse() {
                       <Option value="First Year">First Year</Option>
                       <Option value="Second Year">Second Year</Option>
                       <Option value="Third Year">Third Year</Option>
+                      <Option value="Fourth Year">Fourth Year</Option>
+                      <Option value="Fifth Year">Fifth Year</Option>
                     </Select>
 
                   </div>

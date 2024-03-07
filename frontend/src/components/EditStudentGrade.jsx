@@ -125,7 +125,10 @@ function EditStudentGrade() {
     }
 
     if (fetchLoading) {
-        return <div>Loading...</div>;
+        return  <div className="loader-container">
+        <div className="loader"></div>
+        <div className="loading-text font-semibold">AKWH</div>
+      </div>;
     }
     return (
 
@@ -172,24 +175,20 @@ function EditStudentGrade() {
 
                                 <Tabs value="app">
                                     <TabsHeader>
-                                        <Tab value="back">
-                                            {/* <Link to={`/students/grade/${studentGradeData.user_id}`}>
-                                                <HomeIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                                                Back</Link> */}
-                                        </Tab>
+                                        
                                         <Tab value="students">
-                                            {/* <Link to={`/students/grade/${studentGradeData.user_id}`}>
-                                                <UsersIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                                                Student Grade
-                                            </Link> */}
+                                            <Link to={`/students/grade/${user_idParam}?student_id=${student_idParam}&student_year=${student_yearParam}`}>
+                                                <HomeIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
+                                                Back
+                                            </Link>
                                         </Tab>
 
 
-                                        <Tab value="settings">
+                                        {/* <Tab value="settings">
                                             <Link to="/students/edit/:id">
                                                 <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
                                                 Edit</Link>
-                                        </Tab>
+                                        </Tab> */}
                                     </TabsHeader>
                                 </Tabs>
                             </div>

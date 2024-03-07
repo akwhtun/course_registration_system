@@ -59,7 +59,10 @@ function ViewStudentYear() {
     setRegisterAlert(null);
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
 
   else if (error) {
@@ -156,16 +159,13 @@ function ViewStudentYear() {
                             <td className={className}>
                               <div className="flex items-center gap-4">
                                 {
-                                  profile == null ?
-                                    (
+                                  
                                       gender === 'male' ? (
                                         <Avatar src="../../public/img/student_male.jpg" size="sm" alt="male" variant="rounded" />
                                       ) : (
                                         <Avatar src="../../public/img/student_female.jpg" size="sm" alt="female" variant="rounded" />
                                       )
-                                    ) :
-                                    (<Avatar src="" size="sm" alt="female" variant="rounded" />)
-                                }
+                                      }
 
                                 <div>
                                   <Typography

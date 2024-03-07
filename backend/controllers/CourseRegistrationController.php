@@ -28,16 +28,19 @@ class CourseRegistrationController
             $registrationData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $semesterMapping = array(
-                // 'Semester I' => 'Semester II',
+                'Semester 0' => 'Semester I',
+                'Semester I' => 'Semester II',
                 'Semester II' => 'Semester III',
                 'Semester III' => 'Semester IV',
                 'Semester IV' => 'Semester V',
                 'Semester V' => 'Semester VI',
                 'Semester VI' => 'Semester VII',
                 'Semester VII' => 'Semester VIII',
+                'Semester VIII' => 'Semester IX',
+                'Semester IX' => 'Semester X',
             );
 
-            $currentSemester = null;
+            $currentSemester = 'Semester 0';
 
             foreach ($registrationData as $data) {
                 $currentSemester = $data['semester'];
@@ -140,7 +143,7 @@ class CourseRegistrationController
     public function get_registrations_list()
     {
         try {
-            $query = "SELECT * FROM registrations GROUP BY cr_code";
+            $query = "SELECT * FROM registrations GROUP BY cr_code ORDER BY created_date DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $registrations = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -196,16 +199,20 @@ class CourseRegistrationController
             $registrationData = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
             $semesterMapping = array(
-                // 'Semester I' => 'Semester II',
+                'Semester 0' => 'Semester I',
+                'Semester I' => 'Semester II',
                 'Semester II' => 'Semester III',
                 'Semester III' => 'Semester IV',
                 'Semester IV' => 'Semester V',
                 'Semester V' => 'Semester VI',
                 'Semester VI' => 'Semester VII',
                 'Semester VII' => 'Semester VIII',
+                'Semester VIII' => 'Semester IX',
+                'Semester IX' => 'Semester X',
             );
 
-            $currentSemester = null;
+            $currentSemester = 'Semester 0';
+
 
             foreach ($registrationData as $data) {
                 $currentSemester = $data['semester'];
@@ -249,7 +256,7 @@ class CourseRegistrationController
         }
     }
 
-    public function change_registration_status($id, $status,$semester,$userId)
+    public function change_registration_status($id, $status, $semester, $userId)
     {
         try {
             $query = "UPDATE registrations SET status = :status ,updated_date = NOW() WHERE cr_code = :id";
@@ -267,61 +274,71 @@ class CourseRegistrationController
             }
 
             if ($status == 1) {
-                $nextSemester= null;
-                $semesterNum=null;
+                $nextSemester = null;
+                $semesterNum = null;
                 $nextYear = null;
                 switch ($semester) {
+                    case "Semester 0":
+                        $semesterNum = 0;
+                        $nextSemester = 'Semester I';
+                        break;
                     case "Semester I":
                         $semesterNum = 1;
-                        $nextSemester= 'Semester II';
+                        $nextSemester = 'Semester II';
                         break;
                     case "Semester II":
                         $semesterNum = 2;
-                        $nextSemester= 'Semester III';
+                        $nextSemester = 'Semester III';
                         break;
                     case "Semester III":
                         $semesterNum = 3;
-                        $nextSemester= 'Semester IV';
+                        $nextSemester = 'Semester IV';
                         break;
                     case "Semester IV":
                         $semesterNum = 4;
-                        $nextSemester= 'Semester V';
+                        $nextSemester = 'Semester V';
                         break;
                     case "Semester V":
                         $semesterNum = 5;
-                        $nextSemester= 'Semester VI';
+                        $nextSemester = 'Semester VI';
                         break;
                     case "Semester VI":
                         $semesterNum = 6;
-                        $nextSemester= 'Semester VII';
+                        $nextSemester = 'Semester VII';
                         break;
                     case "Semester VII":
                         $semesterNum = 7;
-                        $nextSemester= 'Semester VIII';
+                        $nextSemester = 'Semester VIII';
                         break;
                     case "Semester VIII":
                         $semesterNum = 8;
-                        $nextSemester= 'Semester XI';
+                        $nextSemester = 'Semester XI';
                         break;
                     case "Semester IX":
                         $semesterNum = 9;
-                        $nextSemester= 'Semester X';
+                        $nextSemester = 'Semester X';
                         break;
                     case "Semester X":
                         $semesterNum = 10;
                         break;
-                    
+
                     default:
                         # code...
                         break;
                 }
-                $currentSemester = $semesterNum; 
+                $currentSemester = $semesterNum;
 
 
                 // Determine the next semester and year
                 $nextSemesterNum = $currentSemester + 1;
 
                 switch ($nextSemesterNum) {
+                    case 1:
+                        $nextYear = "First Year";
+                        break;
+                    case 2:
+                        $nextYear = "First Year";
+                        break;
                     case 2:
                         $nextYear = "First Year";
                         break;
@@ -349,7 +366,7 @@ class CourseRegistrationController
                     case 10:
                         $nextYear = "Fifth Year";
                         break;
-                    
+
                     default:
                         # code...
                         break;
@@ -361,7 +378,7 @@ class CourseRegistrationController
                     $stmt2->bindValue(':semester', $nextSemester);
                     $stmt2->bindValue(':user_id', $userId);
                     $stmt2->execute();
-    
+
                     if ($stmt2->rowCount() > 0) {
                         http_response_code(200);
                         echo json_encode(['message' => 'Student updated successfully']);

@@ -26,12 +26,18 @@ import ViewStudentYear from "./components/ViewStudentYear";
 import CourseRegistration from "./components/CourseRegistration";
 import ViewCourseRegistration from "./components/ViewCourseRegistration";
 import ViewRegistrationHistory from "./components/ViewRegistrationHistory";
+import ViewProfile from "./components/ViewProfile";
 import AccessDeniedPage from "./components/AccessDeniedPage";
 import NotFound from "./components/NotFound";
+import Dashboard from "./components/Dashboard";
+import AdminProfile from "./components/AdminProfile";
+import AdminPasswordChange from "./components/AdminPasswordChange";
+import AdminLogout from "./components/AdminLogout";
 import PrivateRoutes from "./Auth/PrivateRoutes";
 import AuthRoutes from "./Auth/AuthRoutes";
-function App() {
+import About from "./components/About";
 
+function App() {
   return (
     <Routes>
       {/* all user before lognin */}
@@ -76,6 +82,14 @@ function App() {
       <Route path="/course_registration/view" element={<PrivateRoutes role="admin"><RegistrationsList /></PrivateRoutes>} />
       <Route path="/course_registration/view/:id/:semester" element={<PrivateRoutes role="admin"><ViewCourseRegistration /> </PrivateRoutes>} />
 
+      <Route path="/admin/profile" element={<PrivateRoutes role="admin"><AdminProfile /> </PrivateRoutes>} />
+
+      <Route path="/dashboard" element={<PrivateRoutes role="admin"><Dashboard /> </PrivateRoutes>} />
+
+      <Route path="/admin/logout" element={<PrivateRoutes role="admin"><AdminLogout /> </PrivateRoutes>} />
+
+      <Route path="/admin/changePassword" element={<PrivateRoutes role="admin"><AdminPasswordChange /> </PrivateRoutes>} />
+
       {/* student user access pages */}
 
       <Route path="/students/course_register" element={<PrivateRoutes role="student">
@@ -84,23 +98,26 @@ function App() {
       <Route path="/students/registration_history" element={<PrivateRoutes role="student"><ViewRegistrationHistory /></PrivateRoutes>} />
       <Route path="/students/success_register" element={<PrivateRoutes role="student"><RegisterSuccessful /></PrivateRoutes>} />
       <Route path="/course_registration/view/:id" element={<PrivateRoutes role="student"><ViewCourseRegistration /></PrivateRoutes>} />
+      <Route path="/users/profile" element={<PrivateRoutes role="student">
+      <ViewProfile />
+      </PrivateRoutes>} />
+      <Route path="/users/changePassword" element={<PrivateRoutes role="student"><PasswordChangeForm /></PrivateRoutes>} />
+      <Route path="/users/logout" element={<PrivateRoutes role="student"><Logout /></PrivateRoutes>} />
 
-      {/* login ,passwordChange, logout */}
       <Route
         path="/users/login"
-        element={<AuthRoutes status=
-          "login"><LoginForm /></AuthRoutes>}
+        element={<AuthRoutes><LoginForm /></AuthRoutes>}
       />
-      <Route path="/users/changePassword" element={<AuthRoutes status="no">
-        <PasswordChangeForm />
-      </AuthRoutes>} />
-      <Route path="/users/logout" element={<AuthRoutes status="no"><Logout /></AuthRoutes>} />
+      
 
       {/* access denied page */}
       <Route path="/access_denied" element={<AccessDeniedPage />} />
 
       {/* not found page */}
       <Route path="*" element={<NotFound />} />
+
+      {/* public page */}
+      <Route path="/users/about" element={<About />} />
     </Routes>
   );
 }

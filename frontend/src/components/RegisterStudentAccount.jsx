@@ -207,12 +207,17 @@ function RegisterStudentAccount() {
                   Course Semester
                 </Typography>
                 <Select label="Select Semester" name="semester" onChange={(value) => handleSelectChange('semester', value)}>
-                  <Option value='Semester I'>Semester I</Option>
+                <Option value='Semester 0'>Semester 0</Option>
+                <Option value='Semester I'>Semester I</Option>
                   <Option value='Semester II'>Semester II</Option>
                   <Option value='Semester III'>Semester III</Option>
                   <Option value='Semester IV'>Semester IV</Option>
                   <Option value='Semester V'>Semester V</Option>
                   <Option value='Semester VI'>Semester VI</Option>
+                  <Option value='Semester VII'>Semester VII</Option>
+                  <Option value='Semester VIII'>Semester VIII</Option>
+                  <Option value='Semester IX'>Semester IX</Option>
+                  <Option value='Semester X'>Semester X</Option>
 
                 </Select>
               </div>
@@ -224,7 +229,8 @@ function RegisterStudentAccount() {
                   <Option value='First Year'>First Year</Option>
                   <Option value='Second Year'>Second Year</Option>
                   <Option value='Third Year'>Third Year</Option>
-
+                  <Option value="Fourth Year">Fourth Year</Option>
+                    <Option value="Fifth Year">Fifth Year</Option>
                 </Select>
               </div>
               <Button type="submit" disabled={loading} className="mt-6" fullWidth>
@@ -234,9 +240,7 @@ function RegisterStudentAccount() {
 
           </div>
         </section>
-        <div className="text-blue-gray-600">
-          <Footer />
-        </div>
+      
       </div>
     </div>
   );

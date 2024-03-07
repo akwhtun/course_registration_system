@@ -104,7 +104,10 @@ function EditPrequisite() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
   return (
 
@@ -154,23 +157,11 @@ function EditPrequisite() {
                 <Tabs value="app">
                   <TabsHeader>
                     <Tab value="back">
-                      <Link to={`/courses/view`}>
+                      <Link to={`/prequisites/view`}>
                         <HomeIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
                         Back</Link>
                     </Tab>
-                    <Tab value="students">
-                      <Link to={`/students/view`}>
-                        <UsersIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />
-                        Prequisites
-                      </Link>
-                    </Tab>
-
-
-                    <Tab value="settings">
-                      <Link to="/students/edit/:id">
-                        <Cog6ToothIcon className="-mt-1 mr-2 inline-block h-5 w-5" />
-                        Edit</Link>
-                    </Tab>
+                   
                   </TabsHeader>
                 </Tabs>
               </div>

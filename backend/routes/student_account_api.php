@@ -33,7 +33,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             } else {
                 echo json_encode(['error' => 'Fail to fetch']);
             }
-        }  
+        }  else if($endpoint === 'group_data'){
+            $account->get_group_data();
+        }
         else {
             // http_response_code(404);
             echo json_encode(['error' => 'Endpoint not found']);

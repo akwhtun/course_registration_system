@@ -121,7 +121,10 @@ function EditStudent() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="loader-container">
+    <div className="loader"></div>
+    <div className="loading-text font-semibold">AKWH</div>
+  </div>;
   }
   return (
 
@@ -144,8 +147,8 @@ function EditStudent() {
           <CardBody className="p-4">
             <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
               <div className="flex items-center gap-6">
-                {studentData.profile === null ?
-                  (studentData.gender === 'male' ? (<Avatar
+              
+                  {studentData.gender === 'male' ? (<Avatar
                     src="../../public/img/student_male.jpg"
                     alt="bruce-mars"
                     size="xl"
@@ -157,13 +160,8 @@ function EditStudent() {
                     size="xl"
                     variant="rounded"
                     className="rounded-lg shadow-lg shadow-blue-gray-500/40"
-                  />)) : (<Avatar
-                    src="../../public/img/student_male.jpg"
-                    alt="bruce-mars"
-                    size="xl"
-                    variant="rounded"
-                    className="rounded-lg shadow-lg shadow-blue-gray-500/40"
                   />)}
+
                 <div>
                   {message !== null && (
                     <div id="alert-4" className="flex items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
@@ -253,13 +251,17 @@ function EditStudent() {
                 </div>
                 <div className="w-72 mt-5">
                   <Select label="Select Semester" name="semester" value={studentData.semester} onChange={(value) => handleSelectChange('semester', value)}>  
+                  <Option value='Semester 0'>Semester 0</Option>
                   <Option value='Semester I'>Semester I</Option>
                   <Option value='Semester II'>Semester II</Option>
                   <Option value='Semester III'>Semester III</Option>
                   <Option value='Semester IV'>Semester IV</Option>
                   <Option value='Semester V'>Semester V</Option>
                   <Option value='Semester VI'>Semester VI</Option>
-
+                  <Option value='Semester VII'>Semester VII</Option>
+                  <Option value='Semester VIII'>Semester VIII</Option>
+                  <Option value='Semester IX'>Semester IX</Option>
+                  <Option value='Semester X'>Semester X</Option>
                 </Select>
                 </div>
                 <div className="w-72 mt-5">
@@ -267,6 +269,8 @@ function EditStudent() {
                     <Option value="First Year">First Year</Option>
                     <Option value="Second Year">Second Year</Option>
                     <Option value="Third Year">Third Year</Option>
+                    <Option value="Fourth Year">Fourth Year</Option>
+                    <Option value="Fifth Year">Fifth Year</Option>
                   </Select>
                 </div>
                 <div className="w-72 mt-5 flex items-center justify-start">

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom';
+import { IoIosAddCircle } from 'react-icons/io';
 import {
     Card,
     CardHeader,
@@ -85,7 +86,10 @@ function StudentList() {
         }
     };
     if (loading) {
-        return <div>Loading...</div>;
+        return  <div className="loader-container">
+        <div className="loader"></div>
+        <div className="loading-text font-semibold">AKWH</div>
+      </div>;
     }
 
     else if (error) {
@@ -104,11 +108,11 @@ function StudentList() {
                 />
                 <div className="p-4 xl:ml-80">
                     <DashboardNavbar />
+                    <Link to={`/grades/create/${student_id}/${student_year}`} >
+        <Button variant="gradient" color="blue" size="sm" className='flex items-center justify-center'><IoIosAddCircle style={{ fontSize: '20px' }} />Add Grade</Button></Link>
                     <div className="mt-12 mb-8 flex flex-col gap-12 ">
 
-                        <Link to={`/grades/create/${student_id}/${student_year}`} className="text-xs font-semibold">
-                            <Button color="yellow" size='sm' className='ms-2'>Edit</Button>
-                        </Link>
+                       
                         <Card>
                             {updateAlert && (
                                 <div className="px-6">
