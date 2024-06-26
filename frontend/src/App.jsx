@@ -31,6 +31,8 @@ import AccessDeniedPage from "./components/AccessDeniedPage";
 import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 import AdminProfile from "./components/AdminProfile";
+import ModifyRegisterDate from "./components/ModifyRegisterDate";
+import UpdateRegisterDate from "./components/UpdateRegisterDate";
 import AdminPasswordChange from "./components/AdminPasswordChange";
 import AdminLogout from "./components/AdminLogout";
 import PrivateRoutes from "./Auth/PrivateRoutes";
@@ -89,6 +91,12 @@ function App() {
       <Route path="/admin/logout" element={<PrivateRoutes role="admin"><AdminLogout /> </PrivateRoutes>} />
 
       <Route path="/admin/changePassword" element={<PrivateRoutes role="admin"><AdminPasswordChange /> </PrivateRoutes>} />
+      
+      
+      <Route path="/date/allow" element={<PrivateRoutes role="admin"><ModifyRegisterDate /> 
+      </PrivateRoutes>} />
+      <Route path="/date/update" element={<PrivateRoutes role="admin"><UpdateRegisterDate /> 
+      </PrivateRoutes>} />
 
       {/* student user access pages */}
 

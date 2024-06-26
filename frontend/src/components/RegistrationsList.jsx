@@ -130,7 +130,7 @@ function RegistrationsList() {
                   </thead>
                   <tbody>
                     {registrationData.map(
-                      ({id, cr_code,user_id, student_name, student_year,semester,major,academic_year , created_date, status}) => {
+                      ({id, cr_code,user_id, student_name, student_year,semester,major,academic_year , registration_date, status}) => {
                         const className = `py-3 px-5 ${id === registrationData.length - 1
                           ? ""
                           : "border-b border-blue-gray-50"
@@ -171,7 +171,7 @@ function RegistrationsList() {
                             </td>
                             <td className={`py-3 px-5`}>
                               <Typography className="text-xs font-semibold text-blue-gray-600">
-                                {created_date}
+                                {registration_date}
                               </Typography>
                             </td>
                             <td className={`py-3 px-5`}>

@@ -9,7 +9,7 @@ import { LuKeyRound } from "react-icons/lu";
 import { LuKeySquare } from "react-icons/lu";
 import { ImBooks } from "react-icons/im";
 import { PiStudentFill } from "react-icons/pi";
-import { FaRegistered } from "react-icons/fa6";
+import { FaClock, FaRegistered } from "react-icons/fa6";
 import {
   Avatar,
   Button,
@@ -77,6 +77,13 @@ export function Sidenav({ activeNav }) {
       name: 'SubAdmin Register',
       isActive: false,
       link: '/subadmins/create',
+    },
+    {
+      id: 9,
+      icon: FaClock,
+      name: 'Registration Date',
+      isActive: false,
+      link: '/date/allow',
     },
   ]);
 

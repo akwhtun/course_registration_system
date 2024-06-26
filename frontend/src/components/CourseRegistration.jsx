@@ -13,6 +13,7 @@ function CourseRegistration() {
   const [historyData, setHistoryData] = useState([]);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [dateExpire, setDateExpire] = useState(null);
   const [loading, setLoading] = useState(false);
   const [failSubject, setFailSubject] = useState([]);
   const [checkedCourses, setCheckedCourses] = useState([]);
@@ -37,6 +38,8 @@ function CourseRegistration() {
             setNewCourseData(registrationData1);
             const failSubjects = registrationData.filter(item => item.remark === "Fail").map(item => item.course_name);
             setFailSubject(failSubjects);
+          }else{
+setDateExpire(response.data.error)
           }
         } catch (error) {
           setError(error.message);
@@ -45,6 +48,7 @@ function CourseRegistration() {
         }
       };
 
+      
       fetchCourseRegistration();
     }
   }, []);
@@ -165,6 +169,21 @@ function CourseRegistration() {
 
   if (error) {
     return <div>Error: {error}</div>;
+  }
+  if (dateExpire) {
+    return <>
+     <div className="container mx-auto my-20 px-4">
+        <div className="bg-white shadow-md rounded-md p-8 max-w-lg mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Sorry:(</h2>
+          <p className="text-gray-600 mb-4 uppercase">{dateExpire}</p>
+          <div className="flex justify-center">
+            <Link to="/">
+                <Button color='gray'>Back To Home</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>;
   }
 
   return (

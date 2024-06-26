@@ -14,6 +14,14 @@ class CourseRegistrationController
     }
     public function get_student_data($id, $semester)
     {
+        $query0 = "SELECT * FROM dates";
+        $stmt0 = $this->conn->prepare($query0);
+        $stmt0->execute();
+        $date = $stmt0->fetch(PDO::FETCH_ASSOC);
+        $nowDate = time();
+        $endDate = strtotime($date["end_date"]);
+        $startDate = strtotime(($date["start_date"]));
+        if($nowDate > $startDate &&  $nowDate < $endDate){
         try {
             $query = "SELECT users.id,users.name,users.email,users.phone, students.semester,students.student_year, students.major, courses.course_name,courses.course_code,grades.grade_score,grades.remark, prequisites.prequisite_course, prequisites.course 
             FROM users 
@@ -85,6 +93,13 @@ class CourseRegistrationController
         } catch (\Exception $e) {
             return json_encode(['error' => $e->getMessage()]);
         }
+        }else{
+            http_response_code(202);
+            echo json_encode(['error' => 'no registration available']);
+        }
+
+
+       
     }
 
     public function register_course($id, $name, $academic, $year, $semester, $major)
@@ -94,7 +109,12 @@ class CourseRegistrationController
 
         $randomCode = $this->generateUniqueRandomCode();
 
-
+        $query0 = "SELECT * FROM dates";
+        $stmt0 = $this->conn->prepare($query0);
+        $stmt0->execute();
+        $date = $stmt0->fetch(PDO::FETCH_ASSOC);
+        $startDate =($date["start_date"]);
+        $endDate =$date["end_date"];
 
         try {
             $query1 = "DELETE FROM registrations WHERE user_id = :id and semester = :semester";
@@ -110,7 +130,7 @@ class CourseRegistrationController
             }
 
             foreach ($data as $course) {
-                $query = "INSERT INTO registrations (cr_code,user_id, student_name,email, phone,course_code, course_name,major, student_year, semester,academic_year, status ) VALUES (:cr_code,:user_id, :student_name,:email,:phone,:course_code, :course_name,:major,:student_year, :semester, :academic_year,:checked_status)";
+                $query = "INSERT INTO registrations (cr_code,user_id, student_name,email, phone,course_code, course_name,major, student_year, semester,academic_year, status, start_date, end_date ) VALUES (:cr_code,:user_id, :student_name,:email,:phone,:course_code, :course_name,:major,:student_year, :semester, :academic_year,:checked_status, :start_date, :end_date)";
                 $stmt = $this->conn->prepare($query);
                 $stmt->bindValue(':cr_code', $randomCode);
                 $stmt->bindValue(':user_id', $id);
@@ -124,6 +144,8 @@ class CourseRegistrationController
                 $stmt->bindValue(':semester', $semester);
                 $stmt->bindValue(':academic_year', $academic);
                 $stmt->bindValue(':checked_status', 0);
+                $stmt->bindValue(':start_date', $startDate); 
+                $stmt->bindValue(':end_date', $endDate); 
                 $stmt->execute();
                 if ($stmt->rowCount() > 0) {
                     http_response_code(200);
@@ -143,7 +165,7 @@ class CourseRegistrationController
     public function get_registrations_list()
     {
         try {
-            $query = "SELECT * FROM registrations GROUP BY cr_code ORDER BY created_date DESC";
+            $query = "SELECT * FROM registrations GROUP BY cr_code ORDER BY registration_date DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $registrations = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -259,7 +281,7 @@ class CourseRegistrationController
     public function change_registration_status($id, $status, $semester, $userId)
     {
         try {
-            $query = "UPDATE registrations SET status = :status ,updated_date = NOW() WHERE cr_code = :id";
+            $query = "UPDATE registrations SET status = :status  WHERE cr_code = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':status', $status);
             $stmt->bindValue(':id', $id);
@@ -372,7 +394,7 @@ class CourseRegistrationController
                         break;
                 }
                 try {
-                    $query = "UPDATE students SET student_year = :student_year, semester = :semester, updated_date = NOW() WHERE user_id = :user_id";
+                    $query = "UPDATE students SET student_year = :student_year, semester = :semester WHERE user_id = :user_id";
                     $stmt2 = $this->conn->prepare($query);
                     $stmt2->bindValue(':student_year', $nextYear);
                     $stmt2->bindValue(':semester', $nextSemester);
